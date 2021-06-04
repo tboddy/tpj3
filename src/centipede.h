@@ -1,0 +1,39 @@
+#define CENTIPEDE_COUNT 8
+#define CENTIPEDE_OFFSET 8 
+#define CENTIPEDE_LIMIT_LEFT FIX16(16)
+#define CENTIPEDE_LIMIT_RIGHT FIX16(GAME_WIDTH - 16)
+#define CENTIPEDE_LIMIT_TOP FIX16(32)
+#define CENTIPEDE_LIMIT_BOTTOM FIX16(GAME_HEIGHT - 16)
+
+#define CENTIPEDE_COLLIDE_OFFSET FIX16(8)
+#define CENTIPEDE_BULLET_OFFSET FIX16(8)
+#define CENTIPEDE_PLAYER_OFFSET FIX16(2)
+#define CENTIPEDE_POD_OFFSET FIX32(4)
+
+#define CENTIPEDE_DUMP_X FIX16(GAME_WIDTH + 64)
+#define CENTIPEDE_DUMP_Y FIX16(0 - 64)
+
+struct centipede {
+	Sprite* image;
+	Vect2D_f16 pos;
+	bool flippedX, flippedY, flipping, active, flag1, turning, opposite;
+	s16 clock, flipClock, definition, health, turnClock;
+	f16 speed, nextY;
+};
+
+s32 centipedePodCheck;
+f16 centipedeSpeed;
+
+struct centipede centipedes[CENTIPEDE_COUNT];
+
+bool centipedeCollided, zoneOverCheck;
+
+void loadCentipede(),
+	moveCentipede(s16),
+	collideCentipede(s16),
+	animateCentipede(s16),
+	destroyCentipede(s16),
+	splitCentipede(s16),
+	turnCentipede(s16, s16),
+	resetCentipede(),
+	updateCentipede();

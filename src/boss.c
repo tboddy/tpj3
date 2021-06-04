@@ -1,0 +1,3 @@
+void loadBoss(){}
+
+void updateBoss(){}
