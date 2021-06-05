@@ -49,6 +49,7 @@ void nextZone(){
 	zoneStarting = TRUE;
 	zoneOverClock = 0;
 	gameClock = 0;
+	if(currentZone == 2) loadBoss();
 }
 
 int main() {

@@ -5,6 +5,7 @@
 #include "enemies.h"
 #include "pod.h"
 #include "explosion.h"
+#include "boss.h"
 
 
 void spawnPod(struct podSpawner spawner){
@@ -18,6 +19,7 @@ void spawnPod(struct podSpawner spawner){
 		pods[i].random = spawner.random;
 		pods[i].image = SPR_addSprite(&imgSpider, fix16ToInt(POD_DUMP_X), fix16ToInt(POD_DUMP_Y), TILE_ATTR(PAL1, 0, FALSE, FALSE));
 	}
+	spawnExplosion(fix16ToInt(pods[i].pos.x), fix16ToInt(pods[i].pos.y), FALSE);
 }
 
 void shootPod(s16 i){
@@ -26,18 +28,24 @@ void shootPod(s16 i){
 			.x = fix16Add(pods[i].pos.x, FIX16(4)),
 			.y = fix16Add(pods[i].pos.y, FIX16(4)),
 			.type = 3,
-			.speed = FIX16(4),
-			.angle = random() % 1024
+			.speed = FIX16(1),
+			.angle = random() % 1024,
+			.flag1 = FALSE
 		};
+		void bUpdate(s16 j){
+			if(bullets[j].clock % 10 == 0 && bullets[j].speed < FIX16(bullets[j].flag1 ? 2 : 4))
+				bullets[j].speed = fix16Add(bullets[j].speed, FIX16(bullets[j].flag1 ? 0.5 : 1));
+				updateEnemyBulletVelocity(j);
+		}
 		for(s16 b = 0; b < 4; b++){
-			spawnEnemyBullet(bSpawn, eUpdate);
+			spawnEnemyBullet(bSpawn, bUpdate);
 			bSpawn.angle += 256;
 		}
-		bSpawn.speed = FIX16(2);
 		bSpawn.angle += 128;
 		bSpawn.type = 4;
+		bSpawn.flag1 = TRUE;
 		for(s16 b = 0; b < 4; b++){
-			spawnEnemyBullet(bSpawn, eUpdate);
+			spawnEnemyBullet(bSpawn, bUpdate);
 			bSpawn.angle += 256;
 		}
 	}
@@ -104,7 +112,7 @@ void updatePod(){
 		if(zoneOver) killPod(i);
 		pods[i].clock++;
 	}
-	for(s16 i = 0; i < currentPodCount; i++) if(podClock == i * 60 + 60) spawnRandomPod();
+	for(s16 i = 0; i < currentPodCount; i++) if(podClock == i * 120 + 120 && !bossActive) spawnRandomPod();
 	podClock++;
 	if(podClock >= 600) podClock = 300;
 }

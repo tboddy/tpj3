@@ -58,7 +58,7 @@ void animateCentipede(s16 i){
 
 void hitCentipede(s16 i){
 	spawnExplosion(fix16ToInt(centipedes[i].pos.x), fix16ToInt(centipedes[i].pos.y), TRUE);
-	centipedes[i].health -= 15;
+	centipedes[i].health -= 100;
 	if(centipedes[i].health < 67) centipedes[i].definition = 2;
 	if(centipedes[i].health < 33){
 		centipedes[i].definition = 1;

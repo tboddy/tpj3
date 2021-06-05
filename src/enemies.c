@@ -7,6 +7,7 @@
 #include "yin.h"
 #include "centipede.h"
 #include "pod.h"
+#include "boss.h"
 
 
 // bullets
@@ -141,11 +142,14 @@ void resetEnemies(){
 }
 
 void updateEnemies(){
-	if(zoneStarting) loadEnemies();
+	if(zoneStarting && !bossActive) loadEnemies();
 	else {
-		updateYins();
-		updateCentipede();
-		updatePod();
+		if(bossActive) updateBoss();
+		else {
+			updateYins();
+			updateCentipede();
+			updatePod();
+		}
 		if(gameClock % 2 == 0){
 			enemyBulletCount = 0;
 			// for(s16 i = 0; i < ENEMY_LIMIT; i++) if(enemies[i].active) updateEnemy(i);

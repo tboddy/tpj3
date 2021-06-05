@@ -1,4 +1,4 @@
-#define ENEMY_BULLET_LIMIT 56
+#define ENEMY_BULLET_LIMIT 64
 #define ENEMY_BULLET_COLLISION_CHECK FIX16(14)
 
 struct enemyBullet {

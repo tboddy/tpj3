@@ -28,6 +28,12 @@ void loadChromeScore(){
 	VDP_drawText("00000000", 1, 1);
 }
 
+void loadChromeZone(){
+	intToStr(currentZone, zoneHudStr, 2);
+	VDP_drawText("ZONE", 13, 1);
+	VDP_drawText(zoneHudStr, 18, 1);
+}
+
 
 // states
 
@@ -60,11 +66,6 @@ void loadChromeZoneOver(){
 }
 
 void updateChromeZoneOver(){
-	// if(zoneOverClock % 60 == 0 && zoneOverClock > 0){
-	// 	VDP_drawText(zoneOverStage == 3 ? "#" : (zoneOverStage == 2 ? "\"" : "!"), 14, 16);
-	// 	zoneOverStage--;
-	// }
-	// VDP_drawText("/!!", 15, 16);
 	strcpy(zoneOverTime, zoneOverClock >= 180 ? "$" : (zoneOverClock >= 60 ? "\"" : "!"));
 	strcpy(zoneOverTime, zoneOverClock >= 120 ? "#" : (zoneOverClock >= 60 ? "\"" : "!"));
 	strcat(zoneOverTime, "/");
@@ -104,9 +105,9 @@ void loadChrome(){
 	VDP_loadTileSet(frame5.tileset, 7, DMA);
 	loadChromeFrame();
 	loadChromeScore();
-	// VDP_drawText("Zone 1", 1, 1);
+	loadChromeZone();
 	loadChromeLives();
-	zoneOverClock = 240;
+	zoneOverClock = ZONE_OVER_CHROME_LIMIT;
 }
 
 void updateChrome(){
