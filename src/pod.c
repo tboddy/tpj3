@@ -29,16 +29,16 @@ void shootPod(s16 i){
 			.speed = FIX16(4),
 			.angle = random() % 1024
 		};
-		for(s16 b = 0; b < 5; b++){
+		for(s16 b = 0; b < 4; b++){
 			spawnEnemyBullet(bSpawn, eUpdate);
-			bSpawn.angle += 205;
+			bSpawn.angle += 256;
 		}
 		bSpawn.speed = FIX16(2);
 		bSpawn.angle += 128;
 		bSpawn.type = 4;
-		for(s16 b = 0; b < 5; b++){
+		for(s16 b = 0; b < 4; b++){
 			spawnEnemyBullet(bSpawn, eUpdate);
-			bSpawn.angle += 205;
+			bSpawn.angle += 256;
 		}
 	}
 	patternOne();

@@ -21,35 +21,76 @@ void loadChromeFrame(){
 }
 
 void loadChromeLives(){
-	VDP_drawText("X2", 29, 1);
+	VDP_drawText("?2", 29, 1);
 }
 
 void loadChromeScore(){
-	VDP_drawText("SC 00000000", 1, 1);
+	VDP_drawText("00000000", 1, 1);
 }
 
 
 // states
 
 void loadChromeZoneOver(){
+	currentZone++;
 	for(s16 x = 1; x < 31; x++) for(s16 y = 3; y < 27; y++) VDP_setTileMapXY(BG_A, TILE_ATTR_FULL(PAL1, 1, 0, 0, 11), x, y);
+	if(currentZone < 10) strcpy(currentZoneStr, "!");
+	else if(currentZone < 20) strcpy(currentZoneStr, "\"");
+	switch(currentZone % 10){
+		case 0: strcat(currentZoneStr, "!"); break;
+		case 1: strcat(currentZoneStr, "\""); break;
+		case 2: strcat(currentZoneStr, "#"); break;
+		case 3: strcat(currentZoneStr, "$"); break;
+		case 4: strcat(currentZoneStr, "%"); break;
+		case 5: strcat(currentZoneStr, "&"); break;
+		case 6: strcat(currentZoneStr, "'"); break;
+		case 7: strcat(currentZoneStr, "("); break;
+		case 8: strcat(currentZoneStr, ")"); break;
+		case 9: strcat(currentZoneStr, "*"); break;
+	}
 	VDP_drawText("zone", 11, 12);
+	// VDP_drawText(currentZoneStr, 16, 12);
 	VDP_drawText("clear", 16, 12);
-	VDP_drawText("next", 10, 14);
-	VDP_drawText("zone", 15, 14);
-	VDP_drawText("in", 20, 14);
+	VDP_drawText("zone", 11, 14);
+	VDP_drawText(currentZoneStr, 16, 14);
+	// VDP_drawText("zone", 15, 14);
+	VDP_drawText("in", 19, 14);
 	VDP_drawText("^", 14, 16);
 	loadedZoneOver = TRUE;
 }
 
 void updateChromeZoneOver(){
-	if(zoneOverClock % 60 == 0 && zoneOverClock > 0){
-		VDP_drawText(zoneOverStage >= 1 ? (zoneOverStage >= 2 ? "[" : "\\") : "]", 14, 16);
-		zoneOverStage++;
+	// if(zoneOverClock % 60 == 0 && zoneOverClock > 0){
+	// 	VDP_drawText(zoneOverStage == 3 ? "#" : (zoneOverStage == 2 ? "\"" : "!"), 14, 16);
+	// 	zoneOverStage--;
+	// }
+	// VDP_drawText("/!!", 15, 16);
+	strcpy(zoneOverTime, zoneOverClock >= 180 ? "$" : (zoneOverClock >= 60 ? "\"" : "!"));
+	strcpy(zoneOverTime, zoneOverClock >= 120 ? "#" : (zoneOverClock >= 60 ? "\"" : "!"));
+	strcat(zoneOverTime, "/");
+	if(zoneOverClock % 60 < 10) strcat(zoneOverTime, "!");
+	else if(zoneOverClock % 60 < 20) strcat(zoneOverTime, "\"");
+	else if(zoneOverClock % 60 < 30) strcat(zoneOverTime, "#");
+	else if(zoneOverClock % 60 < 40) strcat(zoneOverTime, "$");
+	else if(zoneOverClock % 60 < 50) strcat(zoneOverTime, "%");
+	else if(zoneOverClock % 60 < 60) strcat(zoneOverTime, "&");
+	switch(zoneOverClock % 6){
+		case 0: strcat(zoneOverTime, "!"); break;
+		case 1: strcat(zoneOverTime, "\""); break;
+		case 2: strcat(zoneOverTime, "#"); break;
+		case 3: strcat(zoneOverTime, "$"); break;
+		case 4: strcat(zoneOverTime, "%"); break;
+		case 5: strcat(zoneOverTime, "&"); break;
+		case 6: strcat(zoneOverTime, "'"); break;
+		case 7: strcat(zoneOverTime, "("); break;
+		case 8: strcat(zoneOverTime, ")"); break;
+		case 9: strcat(zoneOverTime, "*"); break;
 	}
-	VDP_drawText("/!!", 15, 16);
-	zoneOverClock++;
-	if(zoneOverClock >= 240) nextZone();
+	VDP_drawText(zoneOverTime, 14, 16);
+	zoneOverClock--;
+	if(zoneOverClock <= 0){
+		nextZone();
+	}
 }
 
 
@@ -65,7 +106,7 @@ void loadChrome(){
 	loadChromeScore();
 	// VDP_drawText("Zone 1", 1, 1);
 	loadChromeLives();
-	zoneOverStage = 0;
+	zoneOverClock = 240;
 }
 
 void updateChrome(){

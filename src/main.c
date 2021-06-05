@@ -18,6 +18,7 @@ void loadResources(){
 }
 
 void loadGame(){
+	currentZone = 1;
 	initLives = 2;
 	started = TRUE;
 	zoneStarting = TRUE;

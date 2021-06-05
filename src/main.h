@@ -3,7 +3,7 @@
 
 bool gameOver, stageOver, noMiss, paused, started, zoneOver, zoneStarting, zoneFinished;
 
-s16 initLives, gameClock;
+s16 initLives, gameClock, currentZone;
 
 void loadResources(),
 	loadGame(),
