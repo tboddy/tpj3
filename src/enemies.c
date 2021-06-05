@@ -60,7 +60,7 @@ void checkEnemyBulletCollision(s16 i){
 		fix16ToFix32(playerPos.x) - fix16ToFix32(bullets[i].pos.x),
 		fix16ToFix32(playerPos.y) - fix16ToFix32(bullets[i].pos.y));
 	if(enemyBulletCollisionDistance < intToFix32(bullets[i].xOffset)){
-		// spawnExplosion(fix16ToInt(bullets[i].pos.x), fix16ToInt(bullets[i].pos.y), TRUE);
+		spawnExplosion(fix16ToInt(bullets[i].pos.x), fix16ToInt(bullets[i].pos.y), TRUE);
 		destroyEnemyBullet(i);
 		// player.hit = TRUE;
 		// SND_startPlayPCM_XGM(SFX_EXPLOSION2, 15, SOUND_PCM_CH2);
@@ -78,8 +78,8 @@ void updateEnemyBullet(s16 i){
 	bullets[i].updater(i);
 	enemyBulletCount++;
 	bullets[i].clock++;
-	if(bullets[i].pos.x < FIX16(4 - bullets[i].xOffset) || bullets[i].pos.x > FIX16(316 + bullets[i].xOffset) ||
-		bullets[i].pos.y < FIX16(20 - bullets[i].yOffset) || bullets[i].pos.y > FIX16(220 + bullets[i].yOffset) ||
+	if(bullets[i].pos.x < FIX16(8 - bullets[i].xOffset) || bullets[i].pos.x > FIX16(248 + bullets[i].xOffset) ||
+		bullets[i].pos.y < FIX16(24 - bullets[i].yOffset) || bullets[i].pos.y > FIX16(216 + bullets[i].yOffset) ||
 		killBullets || bullets[i].clock >= 600 || zoneOver){
 		destroyEnemyBullet(i);
 	}

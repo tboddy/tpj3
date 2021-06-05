@@ -40,3 +40,5 @@ SPRITE imgBigBlueBullet "bullets/bigblue.png" 2 2 FAST 5
 SPRITE imgBigPinkBullet "bullets/bigpink.png" 2 2 FAST 5
 
 SPRITE imgExplosionPlayer "explosions/player.png" 3 3 FAST 5
+
+IMAGE girl "chrome/girl.png" FAST

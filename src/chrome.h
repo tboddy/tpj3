@@ -1,4 +1,4 @@
-#define ZONE_OVER_CHROME_LIMIT 1
+#define ZONE_OVER_CHROME_LIMIT 180
 
 s16 frameTileIndex, zoneOverClock, zoneOverStage;
 
