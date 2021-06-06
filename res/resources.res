@@ -1,21 +1,29 @@
 IMAGE font "chrome/font.png" BEST NONE
 IMAGE font2 "chrome/font2.png" BEST NONE
 
+IMAGE full "full.png" FAST
 IMAGE half "half.png" FAST
 IMAGE least "least.png" FAST
 
 IMAGE ground1 "bg/ground1.png" FAST
+IMAGE heart "bg/heart.png" FAST
 
 IMAGE frame1 "chrome/frame1.png" FAST
 IMAGE frame2 "chrome/frame2.png" FAST
 IMAGE frame3 "chrome/frame3.png" FAST
 IMAGE frame4 "chrome/frame4.png" FAST
 IMAGE frame5 "chrome/frame5.png" FAST
+IMAGE bossBar "chrome/bossbar.png" FAST
+IMAGE chromePlayer "chrome/player.png" FAST
+IMAGE chromeStage "chrome/stage.png" FAST
+IMAGE chromeHard "chrome/hard.png" FAST
+IMAGE chromeEasy "chrome/easy.png" FAST
+IMAGE chromeEnemy "chrome/enemy.png" FAST
 
 SPRITE imgPlayer "player/player.png" 3 4 FAST 20
 SPRITE imgBullet "player/bullet.png" 2 2 FAST
 
-SPRITE imgYin1 "enemies/yin1.png" 1 1 FAST
+SPRITE imgYin1 "enemies/yin1.png" 2 2 FAST 5
 
 SPRITE imgGumdropRed "enemies/gumdropred.png" 2 2 FAST 20
 SPRITE imgGumdropGreen "enemies/gumdropgreen.png" 2 2 FAST 20

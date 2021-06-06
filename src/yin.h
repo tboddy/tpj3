@@ -13,6 +13,9 @@ struct yin yins[YIN_COUNT];
 void loadYins(),
 	moveYinHorizontal(s16),
 	moveYinVertical(s16),
+	yinPatternOne(s16),
+	yinPatternTwo(s16),
+	yinPatternThree(s16),
 	yinShoot(s16),
 	resetYins(),
 	updateYins();

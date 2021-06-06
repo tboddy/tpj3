@@ -58,7 +58,8 @@ void animateCentipede(s16 i){
 
 void hitCentipede(s16 i){
 	spawnExplosion(fix16ToInt(centipedes[i].pos.x), fix16ToInt(centipedes[i].pos.y), TRUE);
-	centipedes[i].health -= 15;
+	centipedes[i].health -= CENTIPEDE_HIT;
+	// centipedes[i].health -= 100;
 	if(centipedes[i].health < 67) centipedes[i].definition = 2;
 	if(centipedes[i].health < 33){
 		centipedes[i].definition = 1;
@@ -131,10 +132,12 @@ void destroyCentipede(s16 i){
 // loop
 
 void loadCentipede(){
-	for(s16 i = 0; i < CENTIPEDE_COUNT; i++){
+	if(centipedeCount == 0) centipedeCount = 4;
+	if(currentZone == 6 || currentZone == 11 || currentZone == 13 || currentZone == 16) centipedeCount++;
+	for(s16 i = 0; i < centipedeCount; i++){
 		centipedes[i].active = TRUE;
 		centipedes[i].pos.x = FIX16(16 + 16 * i);
-		centipedes[i].pos.y = FIX16(32);
+		centipedes[i].pos.y = CENTIPEDE_LIMIT_TOP;
 		centipedes[i].speed = FIX16(2);
 		centipedes[i].image = SPR_addSprite(&imgGumdropRed, fix16ToInt(centipedes[i].pos.x), fix16ToInt(centipedes[i].pos.y), TILE_ATTR(PAL1, 0, FALSE, FALSE));
 		centipedes[i].definition = 3;
@@ -145,12 +148,12 @@ void loadCentipede(){
 }
 
 void resetCentipede(){
-	for(s16 i = 0; i < CENTIPEDE_COUNT; i++) destroyCentipede(i);
+	for(s16 i = 0; i < centipedeCount; i++) destroyCentipede(i);
 }
 
 void updateCentipede(){
 	zoneOverCheck = TRUE;
-	for(s16 i = 0; i < CENTIPEDE_COUNT; i++) if(centipedes[i].active) {
+	for(s16 i = 0; i < centipedeCount; i++) if(centipedes[i].active) {
 		zoneOverCheck = FALSE;
 		moveCentipede(i);
 		collideCentipede(i);

@@ -4,6 +4,7 @@
 #include "main.h"
 #include "controls.h"
 #include "chrome.h"
+#include "start.h"
 #include "background.h"
 #include "enemies.h"
 #include "player.h"
@@ -13,6 +14,7 @@ void loadResources(){
 	VDP_loadFont(font.tileset, DMA);
 	VDP_loadTileSet(half.tileset, 10, DMA);
 	VDP_loadTileSet(least.tileset, 11, DMA);
+	VDP_loadTileSet(full.tileset, 12, DMA);
 	VDP_setPalette(PAL1, font.palette -> data);
 	VDP_setTextPalette(1);
 }
@@ -49,7 +51,7 @@ void nextZone(){
 	zoneStarting = TRUE;
 	zoneOverClock = 0;
 	gameClock = 0;
-	if(currentZone == 2) loadBoss();
+	if(currentZone % 5 == 0) loadBoss();
 }
 
 int main() {
@@ -58,9 +60,10 @@ int main() {
 	JOY_setEventHandler(&updateControls);
 	loadResources();
 	SPR_init(0, 0, 0);
-	loadGame();
+	// loadGame();
+	loadStart();
 	while(1){
-		updateGame();
+		started ? updateGame() : updateStart();
 		SPR_update();
 		SYS_doVBlankProcess();
 	}

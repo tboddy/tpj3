@@ -19,37 +19,68 @@ void spawnPod(struct podSpawner spawner){
 		pods[i].random = spawner.random;
 		pods[i].image = SPR_addSprite(&imgSpider, fix16ToInt(POD_DUMP_X), fix16ToInt(POD_DUMP_Y), TILE_ATTR(PAL1, 0, FALSE, FALSE));
 	}
-	spawnExplosion(fix16ToInt(pods[i].pos.x), fix16ToInt(pods[i].pos.y), FALSE);
+}
+
+void podPatternOne(s16 i){
+	struct bulletSpawner bSpawn = {
+		.x = pods[i].pos.x,
+		.y = pods[i].pos.y,
+		.type = 4
+	};
+	bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, 2, 0, TRUE);
+	bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, 2, 0, FALSE);
+	spawnEnemyBullet(bSpawn, eUpdate);
+}
+
+void podPatternTwo(s16 i){
+	struct bulletSpawner bSpawn = {
+		.x = pods[i].pos.x,
+		.y = pods[i].pos.y,
+		.type = 2
+	};
+	for(s16 b = 0; b < 2; b++){
+		bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, 3, 64, TRUE);
+		bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, 3, 64, FALSE);
+		spawnEnemyBullet(bSpawn, eUpdate);
+	}
+	bSpawn.type = 4;
+	bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, 2, 0, TRUE);
+	bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, 2, 0, FALSE);
+	spawnEnemyBullet(bSpawn, eUpdate);
+}
+
+void podPatternThree(s16 i){}
+void podPatternFour(s16 i){}
+void podPatternFive(s16 i){
+	struct bulletSpawner bSpawn = {
+		.x = pods[i].pos.x,
+		.y = pods[i].pos.y,
+		.type = 3,
+		.speed = FIX16(1),
+		.angle = random() % 1024,
+		.flag1 = FALSE
+	};
+	void bUpdate(s16 j){
+		if(bullets[j].clock % 10 == 0 && bullets[j].speed < FIX16(bullets[j].flag1 ? 2 : 4))
+			bullets[j].speed = fix16Add(bullets[j].speed, FIX16(bullets[j].flag1 ? 0.5 : 1));
+			updateEnemyBulletVelocity(j);
+	}
+	for(s16 b = 0; b < 4; b++){
+		spawnEnemyBullet(bSpawn, bUpdate);
+		bSpawn.angle += 256;
+	}
+	bSpawn.angle += 128;
+	bSpawn.type = 4;
+	bSpawn.flag1 = TRUE;
+	for(s16 b = 0; b < 4; b++){
+		spawnEnemyBullet(bSpawn, bUpdate);
+		bSpawn.angle += 256;
+	}
 }
 
 void shootPod(s16 i){
-	void patternOne(){
-		struct bulletSpawner bSpawn = {
-			.x = fix16Add(pods[i].pos.x, FIX16(4)),
-			.y = fix16Add(pods[i].pos.y, FIX16(4)),
-			.type = 3,
-			.speed = FIX16(1),
-			.angle = random() % 1024,
-			.flag1 = FALSE
-		};
-		void bUpdate(s16 j){
-			if(bullets[j].clock % 10 == 0 && bullets[j].speed < FIX16(bullets[j].flag1 ? 2 : 4))
-				bullets[j].speed = fix16Add(bullets[j].speed, FIX16(bullets[j].flag1 ? 0.5 : 1));
-				updateEnemyBulletVelocity(j);
-		}
-		for(s16 b = 0; b < 4; b++){
-			spawnEnemyBullet(bSpawn, bUpdate);
-			bSpawn.angle += 256;
-		}
-		bSpawn.angle += 128;
-		bSpawn.type = 4;
-		bSpawn.flag1 = TRUE;
-		for(s16 b = 0; b < 4; b++){
-			spawnEnemyBullet(bSpawn, bUpdate);
-			bSpawn.angle += 256;
-		}
-	}
-	patternOne();
+	if(currentZone < 3) podPatternOne(i);
+	else podPatternTwo(i);
 }
 
 void destroyPod(s16 i){
@@ -66,7 +97,11 @@ void spawnRandomPod(){
 	};
 	foundRandomPodMatch = FALSE;
 	for(s16 i = 0; i < POD_COUNT; i++) if(currentPodPos[i].x == pSpawn.x && currentPodPos[i].y == pSpawn.y) foundRandomPodMatch = TRUE;
-	foundRandomPodMatch ? spawnRandomPod() : spawnPod(pSpawn);
+	if(foundRandomPodMatch) spawnRandomPod();
+	else {
+		spawnPod(pSpawn);
+		spawnExplosion(fix16ToInt(pSpawn.x), fix16ToInt(pSpawn.y), FALSE);
+	}
 }
 
 void killPod(s16 i){
@@ -80,13 +115,16 @@ void killPod(s16 i){
 // loop
 
 void loadPod(){
-	currentPodCount = 2;
-	for(s16 i = 0; i < POD_COUNT; i++){
-		pods[i].pos.x = POD_DUMP_X;
-		pods[i].pos.y = POD_DUMP_Y;
-		pods[i].random = FALSE;
-		pods[i].clock = 0;
+	podClock = 0;
+	if(currentPodCount > 0){
+		for(s16 i = 0; i < POD_COUNT; i++){
+			pods[i].pos.x = POD_DUMP_X;
+			pods[i].pos.y = POD_DUMP_Y;
+			pods[i].random = FALSE;
+			pods[i].clock = 0;
+		}
 	}
+	if(currentZone % 2 == 0) currentPodCount++;
 }
 
 void resetPod(){
@@ -112,7 +150,7 @@ void updatePod(){
 		if(zoneOver) killPod(i);
 		pods[i].clock++;
 	}
-	for(s16 i = 0; i < currentPodCount; i++) if(podClock == i * 120 + 120 && !bossActive) spawnRandomPod();
+	if(currentPodCount > 0) for(s16 i = 0; i < currentPodCount; i++) if(podClock == i * 120 + 120 && !bossActive) spawnRandomPod();
 	podClock++;
-	if(podClock >= 600) podClock = 300;
+	if(podClock >= 1200) podClock = (currentPodCount + 2) * 120;
 }

@@ -269,7 +269,10 @@ void shootBoss(){
 
 // collision
 
-void hitBoss(){}
+void hitBoss(){
+	bossHealth--;
+	if(bossHealth <= 0) finishBoss();
+}
 
 void collideBoss(){
 	for(s16 j = 0; j < PLAYER_BULLET_LIMIT; j++) if(playerBullets[j].active) {
@@ -284,13 +287,22 @@ void collideBoss(){
 	}
 }
 
+void finishBoss(){
+	bossActive = FALSE;
+	bossLoaded = FALSE;
+	zoneOver = TRUE;
+	bossClock = 0;
+}
+
 
 // loop
 
 void loadBoss(){
-	bossType++;
+	bossType = 1;
 	bossLoaded = FALSE;
 	bossActive = TRUE;
+	bossHealth = 25;
+	bossMax = bossHealth;
 }
 
 void updateBoss(){
@@ -299,7 +311,7 @@ void updateBoss(){
 			collideBoss();
 			shootBoss();
 		} else if(bossClock == BOSS_LOAD_TIME){
-			VDP_drawImageEx(BG_A, (bossType == 1 ? &cake : &cake), TILE_ATTR_FULL(PAL1, 0, 0, 0, 92), 12, 4, 0, DMA_QUEUE);
+			VDP_drawImageEx(BG_A, (bossType == 1 ? &cake : &cake), TILE_ATTR_FULL(PAL1, 0, 0, 0, 92), 12, 5, 0, DMA_QUEUE);
 			bossLoaded = TRUE;
 			bossClock = -1;
 		}

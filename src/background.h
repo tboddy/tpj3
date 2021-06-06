@@ -6,7 +6,10 @@ s16 backgroundY;
 s16 backgroundScrolls[BG_SCROLL_WIDTH],
 	backgroundSpeeds[BG_SCROLL_WIDTH];
 
-void loadBackground(),
+void loadBackgroundStage(),
+	loadBackgroundBoss(),
 	loadBackgroundTiles(),
 	resetBackground(),
+	updateBackgroundStage(),
+	updateBackgroundBoss(),
 	updateBackground();

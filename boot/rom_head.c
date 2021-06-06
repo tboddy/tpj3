@@ -24,8 +24,8 @@ const struct
 } rom_header = {
     "SEGA MEGA DRIVE ",
     "TBODDY          ",
-    "TOUHOU PRIDE JAM                                ",
-    "TOUHOU PRIDE JAM                                ",
+    "CENTIPEDE GIRL GAME                             ",
+    "CENTIPEDE GIRL GAME                             ",
     "GM 00000000-00",
     0x0000,
     "JD              ",
@@ -38,6 +38,6 @@ const struct
     0x00200000,
     0x002001FF,
     "            ",
-    "TOUHOU PRIDE JAM                        ",
+    "CENTIPEDE GIRL GAME                     ",
     "JUE             "
 };

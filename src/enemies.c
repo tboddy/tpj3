@@ -78,8 +78,8 @@ void updateEnemyBullet(s16 i){
 	bullets[i].updater(i);
 	enemyBulletCount++;
 	bullets[i].clock++;
-	if(bullets[i].pos.x < FIX16(8 - bullets[i].xOffset) || bullets[i].pos.x > FIX16(248 + bullets[i].xOffset) ||
-		bullets[i].pos.y < FIX16(24 - bullets[i].yOffset) || bullets[i].pos.y > FIX16(216 + bullets[i].yOffset) ||
+	if(bullets[i].pos.x < FIX16(0 - bullets[i].xOffset) || bullets[i].pos.x > FIX16(256 + bullets[i].xOffset) ||
+		bullets[i].pos.y < FIX16(0 - bullets[i].yOffset) || bullets[i].pos.y > FIX16(224 + bullets[i].yOffset) ||
 		killBullets || bullets[i].clock >= 600 || zoneOver){
 		destroyEnemyBullet(i);
 	}

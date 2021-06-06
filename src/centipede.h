@@ -1,8 +1,10 @@
-#define CENTIPEDE_COUNT 7
-#define CENTIPEDE_OFFSET 8 
+// #define CENTIPEDE_COUNT 1
+// #define CENTIPEDE_COUNT 7
+#define CENTIPEDE_MAX 16
+#define CENTIPEDE_OFFSET 8
 #define CENTIPEDE_LIMIT_LEFT FIX16(16)
 #define CENTIPEDE_LIMIT_RIGHT FIX16(GAME_WIDTH - 16)
-#define CENTIPEDE_LIMIT_TOP FIX16(32)
+#define CENTIPEDE_LIMIT_TOP FIX16(48)
 #define CENTIPEDE_LIMIT_BOTTOM FIX16(GAME_HEIGHT - 16)
 
 #define CENTIPEDE_COLLIDE_OFFSET FIX16(8)
@@ -13,6 +15,9 @@
 #define CENTIPEDE_DUMP_X FIX16(GAME_WIDTH + 64)
 #define CENTIPEDE_DUMP_Y FIX16(0 - 64)
 
+#define CENTIPEDE_HIT 10
+// #define CENTIPEDE_HIT 100
+
 struct centipede {
 	Sprite* image;
 	Vect2D_f16 pos;
@@ -21,10 +26,11 @@ struct centipede {
 	f16 speed, nextY;
 };
 
+s16 centipedeCount;
 s32 centipedePodCheck;
 f16 centipedeSpeed;
 
-struct centipede centipedes[CENTIPEDE_COUNT];
+struct centipede centipedes[CENTIPEDE_MAX];
 
 bool centipedeCollided, zoneOverCheck;
 
