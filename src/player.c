@@ -87,11 +87,11 @@ void loadPlayer(){
 	playerShotClock = PLAYER_SHOT_INTERVAL;
 	playerPos.x = PLAYER_INIT_X;
 	playerPos.y = PLAYER_INIT_Y;
-	playerSprite = SPR_addSprite(&imgPlayer, playerPos.x, playerPos.y, TILE_ATTR(PAL1, 0, FALSE, FALSE));
-	SPR_setDepth(playerSprite, 4);
+	playerSprite = SPR_addSprite(&imgPlayer, playerPos.x, playerPos.y, TILE_ATTR(PAL1, 1, FALSE, FALSE));
+	SPR_setDepth(playerSprite, 1);
 	for(s16 i = 0; i < PLAYER_BULLET_LIMIT; i++){
-		playerBullets[i].image = SPR_addSprite(&imgBullet, PLAYER_BULLET_DUMP_X, PLAYER_BULLET_DUMP_Y, TILE_ATTR(PAL1, 0, FALSE, FALSE));
-		SPR_setDepth(playerBullets[i].image, 4);
+		playerBullets[i].image = SPR_addSprite(&imgBullet, PLAYER_BULLET_DUMP_X, PLAYER_BULLET_DUMP_Y, TILE_ATTR(PAL1, 1, FALSE, FALSE));
+		SPR_setDepth(playerBullets[i].image, 1);
 	}
 }
 

@@ -45,6 +45,7 @@ void nextZone(){
 	resetBackground();
 	resetEnemies();
 	resetPlayer();
+	// SPR_reset();
 	zoneOver = FALSE;
 	loadedZoneOver = FALSE;
 	zoneFinished = TRUE;

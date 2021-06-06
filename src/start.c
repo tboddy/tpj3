@@ -15,7 +15,7 @@ void loadStartBg(){
 }
 
 void loadStartLogo(){
-	VDP_drawText("egg", 1, 2);
+	VDP_drawText("egg", 2, 2);
 }
 
 void loadStartGirl(){
@@ -29,6 +29,7 @@ void loadStartMenu(){
 	VDP_drawText(">", 1, 5);
 	VDP_drawText("START EASY", 2, 5);
 	VDP_drawText("START HARD", 2, 7);
+	VDP_drawText("ABOUT", 2, 9);
 }
 
 void updateStartMenu(){
@@ -38,9 +39,9 @@ void updateStartMenu(){
 		lastStartMenu = currentStartMenu;
 	}
 	if((controls.up || controls.down) && !selectingStartMenu){
-		currentStartMenu += controls.up ? 1 : -1;
-		if(currentStartMenu > 1) currentStartMenu = 0;
-		else if(currentStartMenu < 0) currentStartMenu = 1;
+		currentStartMenu += controls.up ? -1 : 1;
+		if(currentStartMenu > 2) currentStartMenu = 0;
+		else if(currentStartMenu < 0) currentStartMenu = 2;
 		selectingStartMenu = TRUE;
 	} else if(!controls.up && !controls.down && selectingStartMenu) selectingStartMenu = FALSE;
 }
@@ -51,6 +52,10 @@ void updateStartMenu(){
 void selectStartMenu(){
 	switch(currentStartMenu){
 		case 0:
+			resetStart();
+			loadGame();
+			break;
+		case 1:
 			resetStart();
 			loadGame();
 			break;
