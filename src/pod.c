@@ -52,14 +52,15 @@ void podPatternThree(s16 i){
 		.x = pods[i].pos.x,
 		.y = pods[i].pos.y,
 		.type = 3,
-		.speed = FIX16(1),
+		.speed = FIX16(5),
 		.angle = random() % 1024,
 		.flag1 = FALSE
 	};
 	void bUpdate(s16 j){
-		if(bullets[j].clock % 10 == 0 && bullets[j].speed < FIX16(bullets[j].flag1 ? 2 : 4))
-			bullets[j].speed = fix16Add(bullets[j].speed, FIX16(bullets[j].flag1 ? 0.5 : 1));
+		if(bullets[j].clock % 5 == 0 && bullets[j].clock > 0 && bullets[j].speed > FIX16(bullets[j].flag1 ? 3 : 2)){
+			bullets[j].speed = fix16Sub(bullets[j].speed, FIX16(1));
 			updateEnemyBulletVelocity(j);
+		}
 	}
 	for(s16 b = 0; b < 4; b++){
 		spawnEnemyBullet(bSpawn, bUpdate);
