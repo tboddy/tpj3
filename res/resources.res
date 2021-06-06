@@ -38,6 +38,7 @@ SPRITE imgPeppermintYellow "enemies/peppermintyellow.png" 2 2 FAST 10
 SPRITE imgSpider "enemies/spider.png" 2 2 FAST 20
 
 IMAGE cake "enemies/cake.png" FAST
+IMAGE parfait "enemies/parfait.png" FAST
 
 SPRITE imgSmallRedBullet "bullets/smallred.png" 1 1 FAST 5
 SPRITE imgSmallBlueBullet "bullets/smallblue.png" 1 1 FAST 5
