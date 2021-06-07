@@ -38,11 +38,13 @@ void yinPatternOne(s16 i){
 			.y = FIX16(yins[i].pos.y + 4),
 			.type = 1
 		};
-		bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, 3, yins[i].horizontal ? 32 : 0, TRUE);
-		bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, 3, yins[i].horizontal ? 0 : 32, FALSE);
+		bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, 3, 0, TRUE);
+		bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, 3, 0, FALSE);
 		spawnEnemyBullet(bSpawn, eUpdate);
 	}
 }
+// bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, 3, yins[i].horizontal ? 32 : 0, TRUE);
+// bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, 3, yins[i].horizontal ? 0 : 32, FALSE);
 
 void yinPatternTwo(s16 i){
 	if(yins[i].clock % 80 < 40 && yins[i].clock % 20 == 0){
@@ -57,7 +59,7 @@ void yinPatternTwo(s16 i){
 			.y = FIX16(yins[i].int3),
 			.type = 1,
 			.angle = yins[i].int1,
-			.speed = FIX16(5),
+			.speed = FIX16(4),
 			.flag1 = yins[i].flag2
 		};
 		void bUpdate(s16 bI){
@@ -71,9 +73,9 @@ void yinPatternTwo(s16 i){
 				}
 			}
 		}
-		for(s16 j = 0; j < 8; j++){
+		for(s16 j = 0; j < 6; j++){
 			spawnEnemyBullet(bSpawn, bUpdate);
-			bSpawn.angle += 128;
+			bSpawn.angle += 171;
 		}
 	}
 }
@@ -107,7 +109,11 @@ void yinPatternThree(s16 i){
 void yinShoot(s16 i){
 	if((!yins[i].horizontal && !yins[i].last && yins[i].clock % 240 < 80) ||
 		(yins[i].horizontal && yins[i].clock % 240 >= 80 && yins[i].clock % 240 < 160) ||
-		(yins[i].last && yins[i].clock % 240 >= 160)) yinPatternOne(i);
+		(yins[i].last && yins[i].clock % 240 >= 160)){
+		if(currentZone < 5) yinPatternOne(i);
+		else if(currentZone < 10) yinPatternTwo(i);
+		else yinPatternThree(i);
+	}
 }
 
 
@@ -115,8 +121,8 @@ void yinShoot(s16 i){
 
 void loadYins(){
 	for(s16 i = 0; i < YIN_COUNT; i++){
-		yins[i].pos.x = i == 0 ? 0 : (i == 2 ? 257 : 96);
-		yins[i].pos.y = i % 2 == 0 ? 96 : 32;
+		yins[i].pos.x = i == 0 ? 6 : (i == 2 ? 251 : 96);
+		yins[i].pos.y = i % 2 == 0 ? 96 : 24;
 		yins[i].speed = 20;
 		yins[i].horizontal = i % 2 == 1;
 		yins[i].last = i % 3 == 2;
@@ -138,7 +144,7 @@ void resetYins(){
 void updateYins(){
 	for(s16 i = 0; i < YIN_COUNT; i++){
 		if(yins[i].clock % yins[i].speed == 0) yins[i].horizontal ? moveYinHorizontal(i) : moveYinVertical(i);
-		else if(yins[i].clock % yins[i].speed == 1) SPR_setPosition(yins[i].image, yins[i].pos.x - 8, yins[i].pos.y - 8);
+		else if(yins[i].clock % yins[i].speed == 1) SPR_setPosition(yins[i].image, yins[i].pos.x - 4, yins[i].pos.y - 4);
 		if(yins[i].clock % 5 == 0 && yins[i].speed > 2) yins[i].speed--;
 		zoneOver ? SPR_setVisibility(yins[i].image, HIDDEN) : yinShoot(i);
 		if(!zoneOver) yins[i].clock++;

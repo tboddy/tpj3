@@ -23,7 +23,7 @@ IMAGE chromeEnemy "chrome/enemy.png" FAST
 SPRITE imgPlayer "player/player.png" 3 4 FAST 20
 SPRITE imgBullet "player/bullet.png" 2 2 FAST
 
-SPRITE imgYin1 "enemies/yin1.png" 2 2 FAST 5
+SPRITE imgYin1 "enemies/yin1.png" 1 1 FAST 5
 
 SPRITE imgGumdropRed "enemies/gumdropred.png" 2 2 FAST 20
 SPRITE imgGumdropGreen "enemies/gumdropgreen.png" 2 2 FAST 20
@@ -39,6 +39,7 @@ SPRITE imgSpider "enemies/spider.png" 2 2 FAST 20
 
 IMAGE cake "enemies/cake.png" FAST
 IMAGE parfait "enemies/parfait.png" FAST
+IMAGE waffle "enemies/waffle.png" FAST
 
 SPRITE imgSmallRedBullet "bullets/smallred.png" 1 1 FAST 5
 SPRITE imgSmallBlueBullet "bullets/smallblue.png" 1 1 FAST 5

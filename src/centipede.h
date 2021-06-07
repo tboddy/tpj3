@@ -15,8 +15,8 @@
 #define CENTIPEDE_DUMP_X FIX16(GAME_WIDTH + 64)
 #define CENTIPEDE_DUMP_Y FIX16(0 - 64)
 
-#define CENTIPEDE_HIT 10
-// #define CENTIPEDE_HIT 100
+// #define CENTIPEDE_HIT 10
+#define CENTIPEDE_HIT 100
 
 struct centipede {
 	Sprite* image;

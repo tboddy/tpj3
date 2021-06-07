@@ -14,6 +14,7 @@ void resetBackground(){
 // stage
 
 void loadBackgroundStage(){
+	resetBackground();
 	for(s16 i = 0; i < BG_SCROLL_WIDTH; i++){
 		backgroundSpeeds[i] = i < 8 ? BG_SCROLL_WIDTH - i - 2 : i - 1;
 		backgroundSpeeds[i]--;
@@ -28,7 +29,7 @@ void loadBackgroundStage(){
 }
 
 void updateBackgroundStage(){
-	for(s16 i = 0; i < BG_SCROLL_WIDTH; i++) backgroundScrolls[i] -= fix16ToRoundedInt(FIX16(backgroundSpeeds[i] / 4));
+	for(s16 i = 0; i < BG_SCROLL_WIDTH; i++) backgroundScrolls[i] -= fix16ToRoundedInt(FIX16(backgroundSpeeds[i] / 2)) - 1;
 	VDP_setVerticalScrollTile(BG_B, 0, backgroundScrolls, BG_SCROLL_WIDTH, DMA_QUEUE);
 }
 

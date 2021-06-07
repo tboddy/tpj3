@@ -311,7 +311,7 @@ void updateBoss(){
 			collideBoss();
 			shootBoss();
 		} else if(bossClock == BOSS_LOAD_TIME){
-			VDP_drawImageEx(BG_A, (bossType == 1 ? &cake : &parfait), TILE_ATTR_FULL(PAL1, 0, 0, 0, 92), 12, 5, 0, DMA_QUEUE);
+			VDP_drawImageEx(BG_A, (bossType == 1 ? &cake : (bossType == 2 ? &parfait : &waffle)), TILE_ATTR_FULL(PAL1, 0, 0, 0, 92), 12, 5, 0, DMA_QUEUE);
 			bossLoaded = TRUE;
 			bossClock = -1;
 		}

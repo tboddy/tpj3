@@ -71,6 +71,8 @@ void loadStart(){
 	loadStartLogo();
 	loadStartGirl();
 	loadStartMenu();
+	resetStart();
+	loadGame();
 }
 
 void resetStart(){
