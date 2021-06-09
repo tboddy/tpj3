@@ -14,11 +14,11 @@ void resetBackground(){
 			if(x % 8 == 0 && y % 8 == 0){
 
 				if(currentZone == 5) VDP_drawImageEx(BG_B, &ground2, TILE_ATTR_FULL(PAL1, 0, 0, 0, 16), x, y, 0, DMA_QUEUE);
-				else if(currentZone > 5 && currentZone < 10) VDP_drawImageEx(BG_B, &ground2, TILE_ATTR_FULL(PAL1, 0, 0, 0, 16), x, y, 0, DMA_QUEUE);
+				else if(currentZone > 5 && currentZone < 10) VDP_drawImageEx(BG_B, &ground1, TILE_ATTR_FULL(PAL1, 0, 0, 0, 16), x, y, 0, DMA_QUEUE);
 				if(currentZone == 10) VDP_drawImageEx(BG_B, &ground2, TILE_ATTR_FULL(PAL1, 0, 0, 0, 16), x, y, 0, DMA_QUEUE);
-				else if(currentZone > 10 && currentZone < 15) VDP_drawImageEx(BG_B, &ground2, TILE_ATTR_FULL(PAL1, 0, 0, 0, 16), x, y, 0, DMA_QUEUE);
+				else if(currentZone > 10 && currentZone < 15) VDP_drawImageEx(BG_B, &ground1, TILE_ATTR_FULL(PAL1, 0, 0, 0, 16), x, y, 0, DMA_QUEUE);
 				if(currentZone == 15) VDP_drawImageEx(BG_B, &ground2, TILE_ATTR_FULL(PAL1, 0, 0, 0, 16), x, y, 0, DMA_QUEUE);
-				else if(currentZone > 15) VDP_drawImageEx(BG_B, &ground2, TILE_ATTR_FULL(PAL1, 0, 0, 0, 16), x, y, 0, DMA_QUEUE);
+				else if(currentZone > 15) VDP_drawImageEx(BG_B, &ground1, TILE_ATTR_FULL(PAL1, 0, 0, 0, 16), x, y, 0, DMA_QUEUE);
 				if(currentZone == 20) VDP_drawImageEx(BG_B, &ground2, TILE_ATTR_FULL(PAL1, 0, 0, 0, 16), x, y, 0, DMA_QUEUE);
 			}
 			VDP_setTileMapXY(BG_A, TILE_ATTR_FULL(PAL1, 0, 0, 0, 11), x, y);

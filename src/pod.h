@@ -19,7 +19,7 @@ struct podSpawner {
 
 struct pod pods[POD_COUNT];
 
-s16 podClock, currentPodCount;
+s16 currentPodCount;
 
 Vect2D_f16 currentPodPos[POD_COUNT];
 
@@ -33,7 +33,6 @@ void loadPod(),
 	podPatternFive(s16),
 	shootPod(s16),
 	destroyPod(s16),
-	spawnRandomPod(),
 	killPod(s16),
 	resetPod(),
 	updatePod();

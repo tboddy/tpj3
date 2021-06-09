@@ -102,27 +102,10 @@ void killPod(s16 i){
 	SPR_releaseSprite(pods[i].image);
 }
 
-void spawnRandomPod(){
-	struct podSpawner pSpawn = {
-		.x = FIX16((32 + random() % 192) / 16 * 16),
-		.y = FIX16((48 + random() % 96) / 16 * 16),
-		.random = TRUE
-	};
-	foundRandomPodMatch = FALSE;
-	for(s16 i = 0; i < POD_COUNT; i++) if(currentPodPos[i].x == pSpawn.x && currentPodPos[i].y == pSpawn.y) foundRandomPodMatch = TRUE;
-	if(foundRandomPodMatch) spawnRandomPod();
-	else {
-		spawnPod(pSpawn);
-		spawnExplosion(fix16ToInt(pSpawn.x), fix16ToInt(pSpawn.y), FALSE);
-	}
-}
-
-
 
 // loop
 
 void loadPod(){
-	podClock = 0;
 	currentPodCount = 0;
 	if(currentZone >= 3) currentPodCount = 1;
 	if(currentZone >= 6) currentPodCount = 2;
@@ -152,7 +135,6 @@ void updatePod(){
 		if(pods[i].clock >= POD_TIME_LIMIT){
 			shootPod(i);
 			killPod(i);
-			if(pods[i].random) spawnRandomPod();
 			spawnExplosion(fix16ToInt(pods[i].pos.x), fix16ToInt(pods[i].pos.y), FALSE);
 		} else {
 			if(pods[i].clock % 60 == 0 && pods[i].clock > 0){
@@ -163,7 +145,4 @@ void updatePod(){
 		if(zoneOver) killPod(i);
 		pods[i].clock++;
 	}
-	if(currentPodCount > 0) for(s16 i = 0; i < currentPodCount; i++) if(podClock == i * 120 + 120 && !bossActive) spawnRandomPod();
-	podClock++;
-	if(podClock >= 1200) podClock = (currentPodCount + 2) * 120;
 }
