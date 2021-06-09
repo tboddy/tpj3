@@ -34,8 +34,8 @@ void moveYinVertical(s16 i){
 void yinPatternOne(s16 i){
 	if(yins[i].clock % 80 == 40){
 		struct bulletSpawner bSpawn = {
-			.x = FIX16(yins[i].pos.x + 4),
-			.y = FIX16(yins[i].pos.y + 4),
+			.x = FIX16(yins[i].pos.x),
+			.y = FIX16(yins[i].pos.y),
 			.type = 1
 		};
 		bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, 3, 0, TRUE);
@@ -43,66 +43,90 @@ void yinPatternOne(s16 i){
 		spawnEnemyBullet(bSpawn, eUpdate);
 	}
 }
-// bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, 3, yins[i].horizontal ? 32 : 0, TRUE);
-// bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, 3, yins[i].horizontal ? 0 : 32, FALSE);
+
+// void yinPatternTwo(s16 i){
+// 	if(yins[i].clock % 80 < 40 && yins[i].clock % 20 == 0){
+// 		if(yins[i].clock % 80 == 0){
+// 			yins[i].int1 = random() % 1024;
+// 			yins[i].int2 = yins[i].pos.x + 4;
+// 			yins[i].int3 = yins[i].pos.y + 4;
+// 			yins[i].flag2 = random() % 2 < 1;
+// 		}
+// 		struct bulletSpawner bSpawn = {
+// 			.x = FIX16(yins[i].int2),
+// 			.y = FIX16(yins[i].int3),
+// 			.type = 1,
+// 			.angle = yins[i].int1,
+// 			.speed = FIX16(4),
+// 			.flag1 = yins[i].flag2
+// 		};
+// 		void bUpdate(s16 bI){
+// 			if(bullets[bI].clock % 5 == 0){
+// 				if(bullets[bI].clock >= 15 && bullets[bI].clock < 30){
+// 					bullets[bI].angle += bullets[bI].flag1 ? -64 : 64;
+// 					updateEnemyBulletVelocity(bI);
+// 				} else if(bullets[bI].clock >= 30 && bullets[bI].clock < 60){
+// 					bullets[bI].angle -= bullets[bI].flag1 ? -64 : 64;
+// 					updateEnemyBulletVelocity(bI);
+// 				}
+// 			}
+// 		}
+// 		for(s16 j = 0; j < 6; j++){
+// 			spawnEnemyBullet(bSpawn, bUpdate);
+// 			bSpawn.angle += 171;
+// 		}
+// 	}
+// }
+
+// void yinPatternThree(s16 i){
+// 	if(yins[i].clock % 40 == 0){
+// 		struct bulletSpawner bSpawn = {
+// 			.x = FIX16(yins[i].pos.x + 4),
+// 			.y = FIX16(yins[i].pos.y + 4),
+// 			.type = 1,
+// 			.speed = FIX16(5),
+// 			.angle = random() % 1024,
+// 			.flag1 = yins[i].horizontal
+// 		};
+// 		void bUpdate(s16 bI){
+// 			if(bullets[bI].clock % 5 == 0 && bullets[bI].speed > FIX16(0)){
+// 				bullets[bI].speed = fix16Sub(bullets[bI].speed, FIX16(1));
+// 				updateEnemyBulletVelocity(bI);
+// 			} else if(bullets[bI].clock == 30){
+// 				bullets[bI].velocity.x = honeEnemyBullet(bullets[bI].pos.x, bullets[bI].pos.y, 4, bullets[bI].flag1 ? 48 : 0, TRUE);
+// 				bullets[bI].velocity.y = honeEnemyBullet(bullets[bI].pos.x, bullets[bI].pos.y, 4, bullets[bI].flag1 ? 0 : 48, FALSE);
+// 			}
+// 		}
+// 		for(s16 j = 0; j < 5; j++){
+// 			spawnEnemyBullet(bSpawn, bUpdate);
+// 			bSpawn.angle += 205;
+// 		}
+// 	}
+// }
 
 void yinPatternTwo(s16 i){
-	if(yins[i].clock % 80 < 40 && yins[i].clock % 20 == 0){
-		if(yins[i].clock % 80 == 0){
-			yins[i].int1 = random() % 1024;
-			yins[i].int2 = yins[i].pos.x + 4;
-			yins[i].int3 = yins[i].pos.y + 4;
-			yins[i].flag2 = random() % 2 < 1;
-		}
+	if(yins[i].clock % 40 == 20){
 		struct bulletSpawner bSpawn = {
-			.x = FIX16(yins[i].int2),
-			.y = FIX16(yins[i].int3),
-			.type = 1,
-			.angle = yins[i].int1,
-			.speed = FIX16(4),
-			.flag1 = yins[i].flag2
+			.x = FIX16(yins[i].pos.x),
+			.y = FIX16(yins[i].pos.y),
+			.type = yins[i].clock % 80 == 20 ? 2 : 1
 		};
-		void bUpdate(s16 bI){
-			if(bullets[bI].clock % 5 == 0){
-				if(bullets[bI].clock >= 15 && bullets[bI].clock < 30){
-					bullets[bI].angle += bullets[bI].flag1 ? -64 : 64;
-					updateEnemyBulletVelocity(bI);
-				} else if(bullets[bI].clock >= 30 && bullets[bI].clock < 60){
-					bullets[bI].angle -= bullets[bI].flag1 ? -64 : 64;
-					updateEnemyBulletVelocity(bI);
-				}
-			}
-		}
-		for(s16 j = 0; j < 6; j++){
-			spawnEnemyBullet(bSpawn, bUpdate);
-			bSpawn.angle += 171;
-		}
+		bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, bSpawn.type == 1 ? 4 : 3, bSpawn.type == 1 ? 32 : 0, TRUE);
+		bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, bSpawn.type == 1 ? 4 : 3, bSpawn.type == 1 ? 32 : 0, FALSE);
+		spawnEnemyBullet(bSpawn, eUpdate);
 	}
 }
 
 void yinPatternThree(s16 i){
-	if(yins[i].clock % 40 == 0){
+	if(yins[i].clock % 80 >= 20 && yins[i].clock % 80 < 40 && yins[i].clock % 4 == 0){
 		struct bulletSpawner bSpawn = {
-			.x = FIX16(yins[i].pos.x + 4),
-			.y = FIX16(yins[i].pos.y + 4),
-			.type = 1,
-			.speed = FIX16(5),
-			.angle = yins[i].horizontal ? 0 : (yins[i].last ? 256 : 768)
+			.x = FIX16(yins[i].pos.x),
+			.y = FIX16(yins[i].pos.y),
+			.type = yins[i].clock % 8 == 0 ? 2 : 1
 		};
-		void bUpdate(s16 bI){
-			if(bullets[bI].clock % 5 == 0 && bullets[bI].speed > FIX16(0)){
-				bullets[bI].speed = fix16Sub(bullets[bI].speed, FIX16(1));
-				updateEnemyBulletVelocity(bI);
-			} else if(bullets[bI].clock == 30){
-				bullets[bI].velocity.x = honeEnemyBullet(bullets[bI].pos.x, bullets[bI].pos.y, 5, 48, TRUE);
-				bullets[bI].velocity.y = honeEnemyBullet(bullets[bI].pos.x, bullets[bI].pos.y, 5, 48, FALSE);
-			}
-		}
-		for(s16 j = 0; j < 6; j++){
-			if(j > 0) spawnEnemyBullet(bSpawn, bUpdate);
-			bSpawn.angle += 83;
-			if(j > 1) bSpawn.angle++;
-		}
+		bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, bSpawn.type == 1 ? 5 : 4, yins[i].clock % 80 == 20 ? 0 : 32, TRUE);
+		bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, bSpawn.type == 1 ? 5 : 4, yins[i].clock % 80 == 20 ? 0 : 32, FALSE);
+		spawnEnemyBullet(bSpawn, eUpdate);
 	}
 }
 
@@ -110,9 +134,10 @@ void yinShoot(s16 i){
 	if((!yins[i].horizontal && !yins[i].last && yins[i].clock % 240 < 80) ||
 		(yins[i].horizontal && yins[i].clock % 240 >= 80 && yins[i].clock % 240 < 160) ||
 		(yins[i].last && yins[i].clock % 240 >= 160)){
-		if(currentZone < 5) yinPatternOne(i);
-		else if(currentZone < 10) yinPatternTwo(i);
-		else yinPatternThree(i);
+		// if(currentZone < 5) yinPatternOne(i);
+		// else if(currentZone < 10) yinPatternTwo(i);
+		// else yinPatternThree(i);
+		yinPatternThree(i);
 	}
 }
 

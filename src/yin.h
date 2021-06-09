@@ -16,6 +16,8 @@ void loadYins(),
 	yinPatternOne(s16),
 	yinPatternTwo(s16),
 	yinPatternThree(s16),
+	yinPatternFour(s16),
+	yinPatternFive(s16),
 	yinShoot(s16),
 	resetYins(),
 	updateYins();

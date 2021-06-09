@@ -20,11 +20,12 @@ void loadResources(){
 }
 
 void loadGame(){
-	currentZone = 11;
-	// currentZone = 1;
+	// currentZone = 11;
+	currentZone = 1;
 	initLives = 2;
 	started = TRUE;
 	zoneStarting = TRUE;
+	gameStarting = TRUE;
 	loadExplosion();
 };
 
@@ -40,6 +41,7 @@ void updateGame(){
 	updateChrome();
 	if(zoneFinished) zoneFinished = FALSE;
 	else if(zoneStarting) zoneStarting = FALSE;
+	if(gameStarting) gameStarting = FALSE;
 };
 
 void nextZone(){

@@ -8,6 +8,8 @@
 #include "boss.h"
 
 
+// spawn
+
 void spawnPod(struct podSpawner spawner){
 	s16 i = -1;
 	for(s16 h = 0; h < POD_COUNT; h++) if(!pods[h].active && i == -1) i = h;
@@ -21,14 +23,17 @@ void spawnPod(struct podSpawner spawner){
 	}
 }
 
+
+// shoot
+
 void podPatternOne(s16 i){
 	struct bulletSpawner bSpawn = {
 		.x = pods[i].pos.x,
 		.y = pods[i].pos.y,
 		.type = 4
 	};
-	bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, 2, 0, TRUE);
-	bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, 2, 0, FALSE);
+	bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, 3, 0, TRUE);
+	bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, 3, 0, FALSE);
 	spawnEnemyBullet(bSpawn, eUpdate);
 }
 
@@ -74,20 +79,27 @@ void podPatternThree(s16 i){
 		bSpawn.angle += 256;
 	}
 }
+
 void podPatternFour(s16 i){}
+
 void podPatternFive(s16 i){
 }
 
 void shootPod(s16 i){
-	if(currentZone < 3 || pods[i].random) podPatternOne(i);
-	else if(currentZone < 6) podPatternTwo(i);
-	else podPatternThree(i);
+	// if(currentZone < 3 || pods[i].random) podPatternOne(i);
+	// else if(currentZone < 6) podPatternTwo(i);
+	// else podPatternThree(i);
+	podPatternOne(i);
 }
 
-void destroyPod(s16 i){
-	killPod(i);
-	if(pods[i].random) spawnRandomPod();
-	spawnExplosion(fix16ToInt(pods[i].pos.x), fix16ToInt(pods[i].pos.y), FALSE);
+
+// die
+
+void killPod(s16 i){
+	pods[i].active = FALSE;
+	pods[i].pos.x = POD_DUMP_X;
+	pods[i].pos.y = POD_DUMP_Y;
+	SPR_releaseSprite(pods[i].image);
 }
 
 void spawnRandomPod(){
@@ -105,19 +117,17 @@ void spawnRandomPod(){
 	}
 }
 
-void killPod(s16 i){
-	pods[i].active = FALSE;
-	pods[i].pos.x = POD_DUMP_X;
-	pods[i].pos.y = POD_DUMP_Y;
-	SPR_releaseSprite(pods[i].image);
-}
 
 
 // loop
 
 void loadPod(){
 	podClock = 0;
-	if(currentZone == 2 || currentZone == 6 || currentZone == 11 || currentZone == 16) currentPodCount++;
+	currentPodCount = 0;
+	if(currentZone >= 3) currentPodCount = 1;
+	if(currentZone >= 6) currentPodCount = 2;
+	if(currentZone >= 11) currentPodCount = 3;
+	if(currentZone >= 16) currentPodCount = 4;
 	if(currentPodCount > 0){
 		for(s16 i = 0; i < POD_COUNT; i++){
 			pods[i].pos.x = POD_DUMP_X;
@@ -141,7 +151,9 @@ void updatePod(){
 	for(s16 i = 0; i < POD_COUNT; i++) if(pods[i].active) {
 		if(pods[i].clock >= POD_TIME_LIMIT){
 			shootPod(i);
-			destroyPod(i);
+			killPod(i);
+			if(pods[i].random) spawnRandomPod();
+			spawnExplosion(fix16ToInt(pods[i].pos.x), fix16ToInt(pods[i].pos.y), FALSE);
 		} else {
 			if(pods[i].clock % 60 == 0 && pods[i].clock > 0){
 				SPR_setAnimAndFrame(pods[i].image, pods[i].clock / 60, pods[i].clock % 40 == 0 ? 0 : 1);

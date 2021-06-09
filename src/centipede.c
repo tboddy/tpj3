@@ -9,6 +9,11 @@
 #include "explosion.h"
 
 
+// spawn
+
+void spawnCentipede(){}
+
+
 // movement
 
 void moveCentipede(s16 i){
@@ -23,14 +28,23 @@ void moveCentipede(s16 i){
 		centipedes[i].pos.x = fix16Add(centipedes[i].pos.x, (centipedes[i].flippedX ? fix16Sub(FIX16(0), centipedes[i].speed) : centipedes[i].speed));
 		if(centipedes[i].pos.x >= CENTIPEDE_LIMIT_RIGHT || centipedes[i].pos.x <= CENTIPEDE_LIMIT_LEFT){
 			centipedes[i].flippedX = centipedes[i].pos.x >= CENTIPEDE_LIMIT_RIGHT;
-			if(!centipedes[i].flippedY && centipedes[i].pos.y >= CENTIPEDE_LIMIT_BOTTOM) centipedes[i].flippedY = TRUE;
-			else if(centipedes[i].flippedY && centipedes[i].pos.y <= CENTIPEDE_LIMIT_TOP) centipedes[i].flippedY = FALSE;
+			if(!centipedes[i].flippedY && centipedes[i].pos.y >= CENTIPEDE_LIMIT_BOTTOM){
+				centipedes[i].flippedY = TRUE;
+				if(i == lastCentipede && lastCentipede < centipedeCount){
+					struct podSpawner pSpawn = {
+						.x = FIX16(fix16ToInt(centipedes[i].pos.x) / 16 * 16),
+						.y = FIX16(fix16ToInt(centipedes[i].pos.y) / 16 * 16),
+						.random = FALSE
+					};
+					spawnPod(pSpawn);
+				}
+				// can add another head
+			}else if(centipedes[i].flippedY && centipedes[i].pos.y <= CENTIPEDE_LIMIT_TOP) centipedes[i].flippedY = FALSE;
 			centipedes[i].flipping = TRUE;
 			centipedes[i].nextY = centipedes[i].flippedY ? fix16Sub(centipedes[i].pos.y, FIX16(16)) : fix16Add(centipedes[i].pos.y, FIX16(16));
 		}
 		if(centipedes[i].flipClock > 0) centipedes[i].flipClock = 0;
 	}
-	// if(centipedes[i].clock % 30 == 0 && centipedes[i].speed < FIX16(4)) centipedes[i].speed = fix16Add(centipedes[i].speed, FIX16(0.25));
 }
 
 
@@ -59,7 +73,6 @@ void animateCentipede(s16 i){
 void hitCentipede(s16 i){
 	spawnExplosion(fix16ToInt(centipedes[i].pos.x), fix16ToInt(centipedes[i].pos.y), TRUE);
 	centipedes[i].health -= CENTIPEDE_HIT;
-	// centipedes[i].health -= 100;
 	if(centipedes[i].health < 67) centipedes[i].definition = 2;
 	if(centipedes[i].health < 33){
 		centipedes[i].definition = 1;
@@ -132,8 +145,11 @@ void destroyCentipede(s16 i){
 // loop
 
 void loadCentipede(){
-	if(centipedeCount == 0) centipedeCount = 4;
-	if(currentZone == 6 || currentZone == 11 || currentZone == 13 || currentZone == 16) centipedeCount++;
+	centipedeCount = 4;
+	if(currentZone >= 2) centipedeCount = 5;
+	if(currentZone >= 5) centipedeCount = 5;
+	if(currentZone >= 10) centipedeCount = 7;
+	if(currentZone >= 15) centipedeCount = 8;
 	for(s16 i = 0; i < centipedeCount; i++){
 		centipedes[i].active = TRUE;
 		centipedes[i].pos.x = FIX16(16 + 16 * i);
@@ -153,7 +169,9 @@ void resetCentipede(){
 
 void updateCentipede(){
 	zoneOverCheck = TRUE;
+	tempLastCentipede = 0;
 	for(s16 i = 0; i < centipedeCount; i++) if(centipedes[i].active) {
+		tempLastCentipede++;
 		zoneOverCheck = FALSE;
 		moveCentipede(i);
 		collideCentipede(i);
@@ -170,5 +188,6 @@ void updateCentipede(){
 		centipedes[i].clock++;
 		if(centipedes[i].clock >= 600) centipedes[i].clock = 120;
 	}
+	lastCentipede = tempLastCentipede;
 	if(zoneOverCheck) zoneOver = TRUE;
 }
