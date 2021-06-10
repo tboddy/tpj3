@@ -20,13 +20,14 @@ void loadResources(){
 }
 
 void loadGame(){
-	// currentZone = 11;
+	currentZone = 5;
 	currentZone = 1;
 	initLives = 2;
 	started = TRUE;
 	zoneStarting = TRUE;
 	gameStarting = TRUE;
 	loadExplosion();
+	loadBoss();
 };
 
 void updateGame(){
