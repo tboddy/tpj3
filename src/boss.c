@@ -268,11 +268,28 @@ void bossPatternEight(){ // 3:22
 }
 
 void bossPatternNine(){
+	if(bossClock % 60 < 45 && bossClock % 5 == 0){
+		struct bulletSpawner bSpawn = {
+			.x = FIX16(64 + random() % 128),
+			.y = BOSS_B_Y,
+			.type = 3
+		};
+		spawnExplosion(fix16ToInt(bSpawn.x), fix16ToInt(bSpawn.y), FALSE);
+		for(s8 b = 0; b < 4; b++){
+			bSpawn.type = b % 2 == 0 ? 3 : 4;
+			bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, 5, 192, TRUE);
+			bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, 5, 8, FALSE);
+			spawnEnemyBullet(bSpawn, eUpdate);
+		}
+	}
+}
+
+void bossPatternTen(){
 	
 }
 
 void shootBoss(){
-	bossPatternNine();
+	bossPatternTen();
 }
 
 
