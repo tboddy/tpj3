@@ -7,6 +7,12 @@ IMAGE least "least.png" FAST
 
 IMAGE ground1 "bg/ground1.png" FAST
 IMAGE ground2 "bg/ground2.png" FAST
+IMAGE ground3 "bg/ground3.png" FAST
+IMAGE ground4 "bg/ground4.png" FAST
+IMAGE ground5 "bg/ground5.png" FAST
+IMAGE ground6 "bg/ground6.png" FAST
+IMAGE ground7 "bg/ground7.png" FAST
+IMAGE ground8 "bg/ground8.png" FAST
 
 IMAGE frame1 "chrome/frame1.png" FAST
 IMAGE frame2 "chrome/frame2.png" FAST

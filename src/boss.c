@@ -202,7 +202,7 @@ void bossPatternSix(){
 void bossPatternSeven(){
 	if(bossClock % 120 < 100){
 		if(bossClock % 120 == 0) bossInt1 = 0;
-		if(bossClock % 10 == 0){
+		if(bossClock % 12 == 0){
 			struct bulletSpawner bSpawn = {
 				.x = BOSS_B_X,
 				.y = BOSS_B_Y,
