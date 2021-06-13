@@ -126,6 +126,23 @@ fix16 honeEnemyBullet(fix16 x, fix16 y, s16 speed, s16 lerp, bool isX){
 }
 
 
+// kill bullets dramatically
+
+void updateKillBullets(){
+	if(enemyBulletCount >= ENEMY_BULLET_LIMIT) killBullets = TRUE;
+	if(killBullets){
+		if(killBulletsClock % 4 == 0 && killBulletsClock < 20){
+			spawnExplosion(32 + random() % 192, 32 + random() % 128, FALSE);
+		}
+		killBulletsClock++;
+		if(killBulletsClock >= 30){
+			killBullets = FALSE;
+			killBulletsClock = 0;
+		}
+	}
+}
+
+
 // loop
 
 void loadEnemies(){
@@ -154,14 +171,7 @@ void updateEnemies(){
 			enemyBulletCount = 0;
 			// for(s16 i = 0; i < ENEMY_LIMIT; i++) if(enemies[i].active) updateEnemy(i);
 			for(s16 i = 0; i < ENEMY_BULLET_LIMIT; i++) if(bullets[i].active) updateEnemyBullet(i);
-			if(enemyBulletCount >= ENEMY_BULLET_LIMIT) killBullets = TRUE;
-			if(killBullets){
-				killBulletsClock++;
-				if(killBulletsClock >= 30){
-					killBullets = FALSE;
-					killBulletsClock = 0;
-				}
-			}
+			updateKillBullets();
 		} else for(s16 i = 0; i < ENEMY_BULLET_LIMIT; i++) if(bullets[i].active) drawEnemyBullet(i);
 	}
 }

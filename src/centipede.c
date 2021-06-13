@@ -154,7 +154,8 @@ void loadCentipede(){
 		centipedes[i].active = TRUE;
 		centipedes[i].pos.x = FIX16(16 + 16 * i);
 		centipedes[i].pos.y = CENTIPEDE_LIMIT_TOP;
-		centipedes[i].speed = FIX16(currentZone >= 10 ? 4 : 2);
+		// centipedes[i].speed = FIX16(currentZone >= 10 ? 4 : 2);
+		centipedes[i].speed = FIX16(2);
 		centipedes[i].image = SPR_addSprite(&imgGumdropRed, fix16ToInt(centipedes[i].pos.x), fix16ToInt(centipedes[i].pos.y), TILE_ATTR(PAL1, 0, FALSE, FALSE));
 		centipedes[i].definition = 3;
 		centipedes[i].health = i % 2 == 0 ? 80 : 100;

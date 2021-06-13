@@ -55,3 +55,10 @@ SPRITE imgBigPinkBullet "bullets/bigpink.png" 2 2 FAST 5
 SPRITE imgExplosionPlayer "explosions/player.png" 3 3 FAST 5
 
 IMAGE girl "chrome/girl.png" FAST
+
+
+IMAGE startTop "start/top.png" FAST
+IMAGE startGradient "start/gradient.png" FAST
+IMAGE startBottom "start/bottom.png" FAST
+IMAGE startLogo "start/logo.png" FAST
+IMAGE startLogoV "start/logov.png" FAST

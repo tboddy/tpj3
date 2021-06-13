@@ -9,10 +9,13 @@
 
 #define BOSS_COLLIDE_OFFSET FIX32(40)
 
+#define BOSS_SWITCH_TIME -90
+
 s16 bossClock, bossInt1, bossInt2, bossInt3, bossType, bossHealth, bossMax;
 f16 bossFix1, bossFix2;
 s32 bossCollisionDistance;
 
+bool hitBossPatterns[8];
 bool bossActive, bossLoaded;
 
 void loadBoss(),
@@ -32,6 +35,9 @@ void loadBoss(),
 	bossPatternTen(),
 	bossPatternEleven(),
 	bossPatternTwelve(),
+	bossPatternThirteen(),
+
+	hitBossPattern(u8),
 
 	drawBoss(),
 	collideBoss(),

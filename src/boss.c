@@ -9,7 +9,6 @@
 
 
 // shooting
-// https://www.youtube.com/watch?v=jqRcwqrmATE
 
 void bossPatternOne(){
 	if(bossClock % 10 == 0 && bossClock % 60 <= 50){
@@ -22,9 +21,7 @@ void bossPatternOne(){
 			.speed = FIX16(5)
 		};
 		for(s8 b = 0; b < 8; b++){
-			if((bossClock % 120 < 60 && bSpawn.angle % 1024 >= 0 && bSpawn.angle % 1024 <= 768) ||
-			(bossClock % 120 >= 60 && (bSpawn.angle % 1024 >= 768 || bSpawn.angle % 1024 <= 512)))
-			spawnEnemyBullet(bSpawn, eUpdate);
+			if(bSpawn.angle % 1024 >= 0 && bSpawn.angle % 1024 <= 512) spawnEnemyBullet(bSpawn, eUpdate);
 			bSpawn.angle += 128;
 		}
 		bossInt1 += bossClock % 120 < 60 ? 32 : -32;
@@ -62,7 +59,7 @@ void bossPatternTwo(){
 	}
 }
 
-void bossPatternThree(){ // 0:39
+void bossPatternThree(){
 	if(bossClock % 60 < 18 && bossClock % 6 == 0){
 		if(bossClock % 60 == 0){
 			bossInt1 = 3; 
@@ -110,9 +107,9 @@ void bossPatternFour(){
 		};
 		bSpawn.angle = bossClock % 60 == 3 ? 32 : 0;
 		bSpawn.type = bossClock % 60 == 0 ? 3 : 4;
-		for(s8 b = 0; b < (bossClock % 60 == 3 ? 6 : 7); b++){
+		for(s8 b = 0; b < (bossClock % 60 == 3 ? 5 : 6); b++){
 			bSpawn.angle += 64;
-			spawnEnemyBullet(bSpawn, eUpdate);
+			if(b > 0) spawnEnemyBullet(bSpawn, eUpdate);
 		}
 		bossInt1++;
 	} else if(bossClock % 60 >= 30 && bossClock % 5 == 0){
@@ -128,7 +125,7 @@ void bossPatternFour(){
 	}
 }
 
-void bossPatternFive(){ // 1:25
+void bossPatternFive(){
 	if(bossClock % 60 == 0){
 		struct bulletSpawner bSpawn = {
 			.x = BOSS_B_X,
@@ -143,7 +140,7 @@ void bossPatternFive(){ // 1:25
 			}
 			bSpawn.angle += 64;
 		}
-	} else if(bossClock % 60 >= 30 && bossClock % 60 < 45 && bossClock % 2 == 0){
+	} else if(bossClock % 60 >= 30 && bossClock % 60 < 45 && bossClock % 3 == 0){
 		struct bulletSpawner bSpawn = {
 			.x = BOSS_B_X,
 			.y = BOSS_B_Y,
@@ -170,8 +167,8 @@ void bossPatternFive(){ // 1:25
 	}
 }
 
-void bossPatternSix(){ // 1:38
-	if(bossClock % 2 == 0 && bossClock % 120 < 110){
+void bossPatternSix(){
+	if(bossClock % 3 == 0 && bossClock % 120 < 110){
 		if(bossClock % 120 == 0){
 			bossInt1 = 0 + random() % 32;
 			bossInt2 = 512 - random() % 32;
@@ -184,14 +181,14 @@ void bossPatternSix(){ // 1:38
 			.speed = FIX16(7),
 			.type = bossClock % 240 < 120 ? 4 : 2 
 		};
-		if(bossClock % 4 == 0) spawnExplosion(fix16ToInt(bSpawn.x), fix16ToInt(bSpawn.y), FALSE);
+		if(bossClock % 6 == 0) spawnExplosion(fix16ToInt(bSpawn.x), fix16ToInt(bSpawn.y), FALSE);
 		for(s8 b = 0; b < 2; b++){
 			if(bSpawn.angle % 1024 < 512) spawnEnemyBullet(bSpawn, eUpdate);
 			bSpawn.angle += 512;
 		}
 		bSpawn.x = FIX16(208);
 		bSpawn.angle = bossInt2;
-		if(bossClock % 4 == 2) spawnExplosion(fix16ToInt(bSpawn.x), fix16ToInt(bSpawn.y), FALSE);
+		if(bossClock % 6 == 3) spawnExplosion(fix16ToInt(bSpawn.x), fix16ToInt(bSpawn.y), FALSE);
 		for(s8 b = 0; b < 2; b++){
 			if((bSpawn.angle < 0 && abs(bSpawn.angle) % 1024 > 512) || (bSpawn.angle >= 0 && bSpawn.angle < 512)) spawnEnemyBullet(bSpawn, eUpdate);
 			bSpawn.angle += 512;
@@ -202,7 +199,7 @@ void bossPatternSix(){ // 1:38
 	}
 }
 
-void bossPatternSeven(){ // 1:50
+void bossPatternSeven(){
 	if(bossClock % 120 < 100){
 		if(bossClock % 120 == 0) bossInt1 = 0;
 		if(bossClock % 10 == 0){
@@ -231,7 +228,7 @@ void bossPatternSeven(){ // 1:50
 	}
 }
 
-void bossPatternEight(){ // 3:22
+void bossPatternEight(){
 	if(bossClock % 30 == 0){
 		struct bulletSpawner bSpawn = {
 			.x = FIX16(bossClock % 60 == 0 ? 208 : 48),
@@ -285,18 +282,193 @@ void bossPatternNine(){
 }
 
 void bossPatternTen(){
-	
+	if(bossClock % 15 == 0){
+		struct bulletSpawner bSpawn = {
+			.x = FIX16(64 + random() % 128),
+			.y = BOSS_B_Y,
+			.type = bossClock % 30 == 0 ? 4 : 3,
+			.angle = random() % 1024,
+			.speed = FIX16(bossClock % 30 == 0 ? 7 : 5)
+		};
+		spawnExplosion(fix16ToInt(bSpawn.x), fix16ToInt(bSpawn.y), FALSE);
+		for(s8 b = 0; b < 16; b++){
+			if(bSpawn.angle % 1024 > 0 && bSpawn.angle % 1024 < 512) spawnEnemyBullet(bSpawn, eUpdate);
+			bSpawn.angle += 64;
+		}
+	}
+	else if(bossClock % 60 > 15 && bossClock % 60 < 30 && bossClock % 2 == 0){
+		struct bulletSpawner bSpawn = {
+			.x = BOSS_B_X,
+			.y = BOSS_B_Y,
+			.type = bossClock % 4 == 0 ? 2 : 1
+		};
+		bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, 6, 96, TRUE);
+		bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, 6, 8, FALSE);
+		spawnEnemyBullet(bSpawn, eUpdate);
+	}
+}
+
+void bossPatternEleven(){
+	if(bossClock % 60 < 30 && bossClock % 4 == 0){
+		struct bulletSpawner bSpawn = {
+			.x = FIX16(bossClock % 120 < 60 ? 208 : 48),
+			.y = BOSS_B_Y,
+			.type = 3
+		};
+		if(bossClock % 60 == 0) bossInt1 = 4;
+		if(bossClock % 60 == 0 || bossClock % 60 == 12) spawnExplosion(fix16ToInt(bSpawn.x), fix16ToInt(bSpawn.y), FALSE);
+		bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, bossInt1, 64, TRUE);
+		bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, bossInt1, 8, FALSE);
+		spawnEnemyBullet(bSpawn, eUpdate);
+		bossInt1++;
+	}
+	if(bossClock % 15 == 5){
+		struct bulletSpawner bSpawn = {
+			.x = BOSS_B_X,
+			.y = BOSS_B_Y,
+			.type = 2,
+			.angle = bossClock % 30 == 5 ? 32 : 0,
+			.speed = FIX16(6)
+		};
+		for(s8 b = 0; b < 16; b++){
+			if(bSpawn.angle % 1024 > 0 && bSpawn.angle % 1024 < 512) spawnEnemyBullet(bSpawn, eUpdate);
+			bSpawn.angle += 64;
+		}
+	}
+}
+
+void bossPatternTwelve(){
+	if(bossClock % 60 < 35 && bossClock % 5 == 0){
+		if(bossClock % 60 == 0){
+			bossInt1 = 320;
+			bossInt2 = 192;
+		}
+		struct bulletSpawner bSpawn = {
+			.x = FIX16(bossClock % 10 == 0 ? 208 : 48),
+			.y = BOSS_B_Y,
+			.speed = FIX16(7),
+			.angle = bossClock % 10 == 0 ? bossInt2 : bossInt1,
+			.type = 4
+		};
+		for(s8 b = 0; b < 4; b++){
+			spawnEnemyBullet(bSpawn, eUpdate);
+			bSpawn.angle += bossClock % 10 == 0 ? 64 : -64;
+		}
+		bossInt1 -= 8;
+		bossInt2 += 8;
+	}
+	if(bossClock % 2 == 1 && bossClock % 30 < 15){
+		struct bulletSpawner bSpawn = {
+			.x = BOSS_B_X,
+			.y = BOSS_B_Y,
+			.type = 1
+		};
+		if(bossClock % 30 == 1){
+			bossFix1 = honeEnemyBullet(bSpawn.x, bSpawn.y, 7, 0, TRUE);
+			bossFix2 = honeEnemyBullet(bSpawn.x, bSpawn.y, 7, 0, FALSE);
+		}
+		bSpawn.velocityX = bossFix1;
+		bSpawn.velocityY = bossFix2;
+		spawnEnemyBullet(bSpawn, eUpdate);
+	}
+}
+
+void bossPatternThirteen(){ // 8:09
+	if(bossClock % 4 == 0){
+		if(bossClock == 0){
+			bossInt1 = 0;
+			bossInt2 = 1024;
+		}
+		struct bulletSpawner bSpawn = {
+			.x = FIX16(bossClock % 8 == 0 ? 208 : 48),
+			.y = BOSS_B_Y,
+			.type = 3,
+			.angle = bossClock % 8 ? bossInt2 : bossInt1,
+			.speed = FIX16(6)
+		};
+		spawnExplosion(fix16ToInt(bSpawn.x), fix16ToInt(bSpawn.y), FALSE);
+		for(s8 b = 0; b < 5; b++){
+			if(bSpawn.angle % 1024 > 0 && bSpawn.angle % 1024 < 512) spawnEnemyBullet(bSpawn, eUpdate);
+			bSpawn.angle += 205;
+		}
+		bossInt1 += 19;
+		bossInt2 -= 15;
+		if(bossInt1 >= 1024) bossInt1 = 0;
+		if(bossInt2 <= 0) bossInt2 = 1024;
+	}
+	if(bossClock % 60 == 35 || bossClock % 60 == 36){
+		struct bulletSpawner bSpawn = {
+			.x = BOSS_B_X,
+			.y = BOSS_B_Y,
+			.type = bossClock % 60 == 35 ? 2 : 1,
+			.angle = bossClock % 60 == 35 ? 0 : 32,
+			.speed = FIX16(bossClock % 60 == 35 ? 5 : 8)
+		};
+		for(s8 b = 0; b < 8; b++){
+			if(b > 0 && (bossClock % 60 == 35 || (bossClock % 60 == 36 && b < 7))) spawnEnemyBullet(bSpawn, eUpdate);
+			bSpawn.angle += 64;
+		}
+	}
+}
+
+void hitBossPattern(u8 i){
+	if(!hitBossPatterns[i]){
+		hitBossPatterns[i] = TRUE;
+		bossClock = BOSS_SWITCH_TIME;
+		killBullets = TRUE;
+	}
 }
 
 void shootBoss(){
-	bossPatternTen();
+	switch(bossType){
+		case 1:
+			if(bossHealth < 50){
+				hitBossPattern(0);
+				if(bossClock >= 0) bossPatternTwo();
+			} else if(bossClock >= 0) bossPatternOne();
+			break;
+		case 2:
+			if(bossHealth < 50){
+				hitBossPattern(2);
+				if(bossClock >= 0) bossPatternFive();
+			} else if(bossHealth < 100){
+				hitBossPattern(1);
+				if(bossClock >= 0) bossPatternFour();
+			} else if(bossClock >= 0) bossPatternThree();
+			break;
+		case 3:
+			if(bossHealth < 50){
+				hitBossPattern(4);
+				if(bossClock >= 0) bossPatternEight();
+			} else if(bossHealth < 100){
+				hitBossPattern(3);
+				if(bossClock >= 0) bossPatternSeven();
+			} else if(bossClock >= 0) bossPatternSix();
+			break;
+		case 4:
+			if(bossHealth < 50){
+				hitBossPattern(8);
+				if(bossClock >= 0) bossPatternThirteen();
+			} else if(bossHealth < 100){
+				hitBossPattern(7);
+				if(bossClock >= 0) bossPatternTwelve();
+			} else if(bossHealth < 150){
+				hitBossPattern(6);
+				if(bossClock >= 0) bossPatternEleven();
+			} else if(bossHealth < 200){
+				hitBossPattern(5);
+				if(bossClock >= 0) bossPatternTen();
+			} else if(bossClock >= 0) bossPatternNine();
+			break;
+	}
 }
 
 
 // collision
 
 void hitBoss(){
-	bossHealth--;
+	// bossHealth--;
+	bossHealth -= 2;
 	if(bossHealth <= 0) finishBoss();
 }
 
@@ -317,7 +489,7 @@ void finishBoss(){
 	bossActive = FALSE;
 	bossLoaded = FALSE;
 	zoneOver = TRUE;
-	bossClock = 0;
+	bossClock = BOSS_SWITCH_TIME;
 }
 
 
@@ -325,9 +497,23 @@ void finishBoss(){
 
 void loadBoss(){
 	bossType++;
+	// bossType = 3;
+	switch(bossType){
+		case 1:
+			bossHealth = 100;
+			break;
+		case 2:
+			bossHealth = 150;
+			break;
+		case 3:
+			bossHealth = 150;
+			break;
+		case 4:
+			bossHealth = 250;
+			break;
+	}
 	bossLoaded = FALSE;
 	bossActive = TRUE;
-	bossHealth = 100;
 	bossMax = bossHealth;
 }
 
