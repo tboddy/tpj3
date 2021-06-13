@@ -8,8 +8,6 @@ IMAGE least "least.png" FAST
 IMAGE ground1 "bg/ground1.png" FAST
 IMAGE ground2 "bg/ground2.png" FAST
 
-IMAGE heart "bg/heart.png" FAST
-
 IMAGE frame1 "chrome/frame1.png" FAST
 IMAGE frame2 "chrome/frame2.png" FAST
 IMAGE frame3 "chrome/frame3.png" FAST
