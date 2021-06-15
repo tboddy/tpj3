@@ -110,13 +110,11 @@ void resetPod(){
 void updatePod(){
 	for(s16 i = 0; i < POD_COUNT; i++) if(pods[i].active) {
 		if(pods[i].clock >= POD_TIME_LIMIT){
-			shootPod(i);
+			if(!gameOver) shootPod(i);
 			killPod(i);
 			spawnExplosion(fix16ToInt(pods[i].pos.x), fix16ToInt(pods[i].pos.y), FALSE);
 		} else {
-			if(pods[i].clock % 60 == 0 && pods[i].clock > 0){
-				SPR_setAnimAndFrame(pods[i].image, pods[i].clock / 60, pods[i].clock % 40 == 0 ? 0 : 1);
-			}
+			if(pods[i].clock % 60 == 0 && pods[i].clock > 0) SPR_setAnimAndFrame(pods[i].image, pods[i].clock / 60, pods[i].clock % 40 == 0 ? 0 : 1);
 			SPR_setPosition(pods[i].image, fix16ToInt(pods[i].pos.x) - 8, fix16ToInt(pods[i].pos.y) - 8);
 		}
 		if(zoneOver) killPod(i);

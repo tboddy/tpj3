@@ -62,9 +62,9 @@ void checkEnemyBulletCollision(s16 i){
 	if(enemyBulletCollisionDistance < intToFix32(bullets[i].xOffset)){
 		spawnExplosion(fix16ToInt(bullets[i].pos.x), fix16ToInt(bullets[i].pos.y), TRUE);
 		destroyEnemyBullet(i);
-		// player.hit = TRUE;
+		hitPlayer = TRUE;
+		killBullets = TRUE;
 		// SND_startPlayPCM_XGM(SFX_EXPLOSION2, 15, SOUND_PCM_CH2);
-		// killBullets = TRUE;
 	} else if(!bullets[i].grazed){
 		bullets[i].grazed = TRUE;
 		// currentScore += 15;

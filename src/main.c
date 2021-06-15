@@ -21,12 +21,12 @@ void loadResources(){
 
 void loadGame(){
 	currentZone = 1;
-	initLives = 2;
 	started = TRUE;
 	zoneStarting = TRUE;
 	gameStarting = TRUE;
 	yinBulletSpeed = 4;
 	podBulletSpeed = 3;
+	playerLives = 3;
 	loadExplosion();
 };
 
@@ -64,6 +64,7 @@ void nextZone(){
 	zoneStarting = TRUE;
 	zoneOverClock = 0;
 	gameClock = 0;
+	noMiss = TRUE;
 }
 
 int main() {

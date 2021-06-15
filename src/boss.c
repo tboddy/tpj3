@@ -526,7 +526,7 @@ void updateBoss(){
 	if(bossActive) {
 		if(bossLoaded){
 			collideBoss();
-			shootBoss();
+			if(!gameOver) shootBoss();
 		} else if(bossClock == BOSS_LOAD_TIME){
 			VDP_drawImageEx(BG_A, 
 				(bossType == 1 ? &roll : (bossType == 2 ? &waffle : (bossType == 3 ? &cake : &parfait))), 

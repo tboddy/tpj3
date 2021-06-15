@@ -37,6 +37,9 @@ Sprite* playerSprite;
 Vect2D_f16 playerPos, playerVelocity;
 
 s16 playerShotClock;
+s8 playerLives;
+
+bool hitPlayer, playerRecovering;
 
 void loadPlayer(),
 	updatePlayer(),
@@ -46,4 +49,5 @@ void loadPlayer(),
 	updatePlayerBullets(),
 	spawnPlayerBullet(bool),
 	resetPlayer(),
+	updatePlayerHit(),
 	removePlayerBullet(s16);

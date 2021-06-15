@@ -4,18 +4,34 @@
 #include "main.h"
 #include "chrome.h"
 #include "boss.h"
+#include "player.h"
 
 
-// hud
+// lives
 
 void loadChromeLives(){
 	VDP_drawImageEx(BG_A, &chromePlayer, TILE_ATTR_FULL(PAL1, 1, 0, 0, 160), 1, 1, 0, DMA_QUEUE);
-	VDP_drawText("#", 6, 1);
 }
+
+void updateChromePlayerLives(){
+	if(chromePlayerLives != playerLives){
+		for(s8 x = 0; x < 6; x++){
+			VDP_setTileMapXY(BG_A, TILE_ATTR_FULL(PAL1, 0, 0, 0, 11), x + 6, 1);
+			if(x < playerLives) VDP_drawText("#", x + 6, 1);
+		}
+		chromePlayerLives = playerLives;
+	}
+}
+
+
+// score
 
 void loadChromeScore(){
 	VDP_drawText("00000000", 12, 1);
 }
+
+
+// zone
 
 void loadChromeZone(){
 	intToStr(currentZone, zoneHudStr, 2);
@@ -23,14 +39,11 @@ void loadChromeZone(){
 	VDP_drawImageEx(BG_A, &chromeStage, TILE_ATTR_FULL(PAL1, 1, 0, 0, 170), 24, 1, 0, DMA_QUEUE);
 }
 
-void loadChromeRank(){
-	VDP_drawImageEx(BG_A, &chromeHard, TILE_ATTR_FULL(PAL1, 1, 0, 0, 180), 27, 3, 0, DMA_QUEUE);
-}
-
 
 // states
 
 void loadChromeZoneOver(){
+	chromePlayerLives = 0;
 	intToStr(currentZone, currentZoneStr, 2);
 
 	VDP_drawText("stage", 7, 8);
@@ -47,7 +60,6 @@ void loadChromeZoneOver(){
 	VDP_drawText("00000", 20, 16);
 
 	currentZone++;
-	// currentZone = 5;
 	VDP_drawText("next stage", 7, 21);
 	loadedZoneOver = TRUE;
 }
@@ -115,7 +127,6 @@ void loadChrome(){
 	loadChromeScore();
 	loadChromeZone();
 	loadChromeLives();
-	// loadChromeRank();
 	zoneOverClock = ZONE_OVER_CHROME_LIMIT;
 }
 
@@ -126,6 +137,7 @@ void updateChrome(){
 			if(!loadedZoneOver) loadChromeZoneOver();
 			updateChromeZoneOver();
 		} else {
+			updateChromePlayerLives();
 			updateChromeBoss();
 		}
 	}

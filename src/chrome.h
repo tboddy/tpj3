@@ -8,6 +8,7 @@
 #define BOSS_TILE_PX BOSS_TILE_COUNT * 8
 
 s16 frameTileIndex, zoneOverClock, zoneOverStage, lastBossHealth, bossTileIndex;
+s8 chromePlayerLives;
 
 fix16 bossLimit, lastBossLimit;
 
@@ -21,7 +22,8 @@ char currentZoneStr[2],
 void loadChrome(),
 	loadChromeZoneOver(),
 	loadChromeLives(),
-	loadChromeRank(),
 	loadChromeScore(),
 	updateChromeZoneOver(),
+	updateChromePlayerLives(),
+	updateChromeBoss(),
 	updateChrome();

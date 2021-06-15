@@ -80,6 +80,37 @@ void updatePlayerShot(){
 }
 
 
+// get hit
+
+void updatePlayerHit(){
+	if(hitPlayer){
+		hitPlayer = FALSE;
+		playerRecovering = TRUE;
+		playerPos.x = PLAYER_INIT_X;
+		playerPos.y = PLAYER_INIT_Y;
+		playerLives -= 1;
+		noMiss = FALSE;
+		if(playerLives < 0) gameOver = TRUE;
+	}
+	// if(!gameOver && player.recovering){
+		// if(player.recoverClock % RECOVER_INTERVAL == 0){
+		// 	SPR_setVisibility(player.image, HIDDEN);
+		// 	SPR_setVisibility(player.hitboxImage, HIDDEN);
+		// } else if(player.recoverClock % RECOVER_INTERVAL == RECOVER_INTERVAL / 2){
+		// 	SPR_setVisibility(player.image, VISIBLE);
+		// 	SPR_setVisibility(player.hitboxImage, VISIBLE);
+		// }
+		// player.recoverClock++;
+		// if(player.recoverClock >= RECOVER_INTERVAL * 6){
+		// 	SPR_setVisibility(player.image, VISIBLE);
+		// 	SPR_setVisibility(player.hitboxImage, VISIBLE);
+		// 	player.recoverClock = 0;
+		// 	player.recovering = FALSE;
+		// }
+	// }
+}
+
+
 // loop
 
 
@@ -112,7 +143,7 @@ void updatePlayer(){
 		if(!gameOver && !paused){
 			updatePlayerMove();
 			updatePlayerShot();
-		}
-		if(zoneOver) SPR_setVisibility(playerSprite, HIDDEN);
+			updatePlayerHit();
+		} else if(gameOver) resetPlayer();
 	}
 }

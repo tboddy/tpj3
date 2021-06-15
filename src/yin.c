@@ -121,7 +121,8 @@ void updateYins(){
 		if(yins[i].clock % yins[i].speed == 0) yins[i].horizontal ? moveYinHorizontal(i) : moveYinVertical(i);
 		else if(yins[i].clock % yins[i].speed == 1) SPR_setPosition(yins[i].image, yins[i].pos.x - 4, yins[i].pos.y - 4);
 		if(yins[i].clock % 5 == 0 && yins[i].speed > 2) yins[i].speed--;
-		zoneOver ? SPR_setVisibility(yins[i].image, HIDDEN) : yinShoot(i);
+		if(zoneOver) SPR_setVisibility(yins[i].image, HIDDEN);
+		else if(!gameOver) yinShoot(i);
 		if(!zoneOver) yins[i].clock++;
 		if(yins[i].clock >= 240) yins[i].clock = 0;
 	}
