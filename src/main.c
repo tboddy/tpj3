@@ -43,6 +43,12 @@ void updateGame(){
 	if(zoneFinished) zoneFinished = FALSE;
 	else if(zoneStarting) zoneStarting = FALSE;
 	if(gameStarting) gameStarting = FALSE;
+	if(!gameOver && started && gameClock >= 15){
+		if(controls.start && !pausing){
+			pausing = TRUE;
+			paused = paused ? FALSE : TRUE;
+		} else if(!controls.start && pausing) pausing = FALSE;
+	}
 };
 
 void nextZone(){

@@ -54,7 +54,7 @@ void loadChromeZoneOver(){
 
 void updateChromeZoneOver(){ // lmao
 	strcpy(zoneOverTime, zoneOverClock >= 180 ? "3" : (zoneOverClock >= 120 ? "2" : (zoneOverClock >= 60 ? "1" : "0")));
-	strcat(zoneOverTime, ":");
+	strcat(zoneOverTime, ";");
 	if(zoneOverClock % 60 < 10) strcat(zoneOverTime, "0");
 	else if(zoneOverClock % 60 < 20) strcat(zoneOverTime, "1");
 	else if(zoneOverClock % 60 < 30) strcat(zoneOverTime, "2");
