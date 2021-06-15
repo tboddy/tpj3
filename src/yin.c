@@ -8,7 +8,7 @@
 
 // movement
 
-void moveYinHorizontal(s16 i){
+void moveYinHorizontal(s8 i){
 	yins[i].pos.x += yins[i].flag1 ? 0 - YIN_SPEED : YIN_SPEED;
 	if(yins[i].pos.x >= GAME_WIDTH - 10){
 		yins[i].flag1 = TRUE;
@@ -19,9 +19,9 @@ void moveYinHorizontal(s16 i){
 	}
 }
 
-void moveYinVertical(s16 i){
+void moveYinVertical(s8 i){
 	yins[i].pos.y += yins[i].flag1 ? 0 - YIN_SPEED : YIN_SPEED;
-	if(yins[i].pos.y >= 176){
+	if(yins[i].pos.y >= 112){
 		yins[i].flag1 = TRUE;
 	} else if(yins[i].pos.y <= 56){
 		yins[i].flag1 = FALSE;
@@ -31,70 +31,59 @@ void moveYinVertical(s16 i){
 
 // shooting
 
-void yinPatternOne(s16 i){
+void yinPatternOne(s8 i){
 	if(yins[i].clock % 80 == 40){
 		struct bulletSpawner bSpawn = {
 			.x = FIX16(yins[i].pos.x),
 			.y = FIX16(yins[i].pos.y),
 			.type = 1
 		};
-		bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, 3, 0, TRUE);
-		bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, 3, 0, FALSE);
+		bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, yinBulletSpeed, 0, TRUE);
+		bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, yinBulletSpeed, 0, FALSE);
 		spawnEnemyBullet(bSpawn, eUpdate);
 	}
 }
 
-void yinPatternTwo(s16 i){
+void yinPatternTwo(s8 i){
 	if(yins[i].clock % 40 == 20){
 		struct bulletSpawner bSpawn = {
 			.x = FIX16(yins[i].pos.x),
 			.y = FIX16(yins[i].pos.y),
 			.type = yins[i].clock % 80 == 20 ? 2 : 1
 		};
-		bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, bSpawn.type == 1 ? 4 : 3, bSpawn.type == 1 ? 32 : 0, TRUE);
-		bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, bSpawn.type == 1 ? 4 : 3, bSpawn.type == 1 ? 32 : 0, FALSE);
+		bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, yinBulletSpeed, bSpawn.type == 1 ? 32 : 0, TRUE);
+		bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, yinBulletSpeed, bSpawn.type == 1 ? 32 : 0, FALSE);
 		spawnEnemyBullet(bSpawn, eUpdate);
 	}
 }
 
-void yinPatternThree(s16 i){
-	if(yins[i].clock % 80 >= 20 && yins[i].clock % 80 < 36 && yins[i].clock % 4 == 0){
+void yinPatternThree(s8 i, s8 count){
+	if(yins[i].clock % 80 >= 20 && yins[i].clock % 80 < 30 && yins[i].clock % 5 == 0){
 		struct bulletSpawner bSpawn = {
 			.x = FIX16(yins[i].pos.x),
 			.y = FIX16(yins[i].pos.y),
-			.type = yins[i].clock % 8 == 0 ? 2 : 1
+			.type = yins[i].clock % 8 == 0 ? 2 : 1,
+			.int1 = 64
 		};
-		bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, bSpawn.type == 1 ? 5 : 4, yins[i].clock % 80 == 20 ? 0 : 32, TRUE);
-		bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, bSpawn.type == 1 ? 5 : 4, yins[i].clock % 80 == 20 ? 0 : 32, FALSE);
-		spawnEnemyBullet(bSpawn, eUpdate);
+		for(s8 b = 0; b < count; b++){
+			bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, yinBulletSpeed, yins[i].horizontal ? bSpawn.int1 : 0, TRUE);
+			bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, yinBulletSpeed, yins[i].horizontal ? 0 : bSpawn.int1, FALSE);
+			spawnEnemyBullet(bSpawn, eUpdate);
+			bSpawn.type = bSpawn.type == 2 ? 1 : 2;
+			bSpawn.int1 += 16;
+		}
 	}
 }
 
-void yinPatternFour(s16 i){
-	if(yins[i].clock % 80 >= 20 && yins[i].clock % 80 < 36 && yins[i].clock % 4 == 0){
-		struct bulletSpawner bSpawn = {
-			.x = FIX16(yins[i].pos.x),
-			.y = FIX16(yins[i].pos.y),
-			.type = 1
-		};
-		bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, bSpawn.type == 1 ? 5 : 4, yins[i].clock % 80 == 20 ? 0 : 48, TRUE);
-		bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, bSpawn.type == 1 ? 5 : 4, yins[i].clock % 80 == 20 ? 0 : 48, FALSE);
-		spawnEnemyBullet(bSpawn, eUpdate);
-		bSpawn.type = 2;
-		bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, bSpawn.type == 1 ? 5 : 4, yins[i].clock % 80 == 20 ? 0 : 64, TRUE);
-		bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, bSpawn.type == 1 ? 5 : 4, yins[i].clock % 80 == 20 ? 0 : 64, FALSE);
-		spawnEnemyBullet(bSpawn, eUpdate);
-	}
-}
-
-void yinShoot(s16 i){
+void yinShoot(s8 i){
 	if((!yins[i].horizontal && !yins[i].last && yins[i].clock % 240 < 80) ||
 		(yins[i].horizontal && yins[i].clock % 240 >= 80 && yins[i].clock % 240 < 160) ||
 		(yins[i].last && yins[i].clock % 240 >= 160)){
-		if(currentZone < 5) yinPatternOne(i);
-		else if(currentZone < 10) yinPatternTwo(i);
-		else if(currentZone < 15) yinPatternThree(i);
-		else yinPatternFour(i);
+		if(currentZone == 1) yinPatternOne(i);
+		else if(currentZone < 5) yinPatternTwo(i);
+		else if(currentZone < 10) yinPatternThree(i, 1);
+		else if(currentZone < 15) yinPatternThree(i, 2);
+		else yinPatternThree(i, 3);
 	}
 }
 
@@ -102,9 +91,10 @@ void yinShoot(s16 i){
 // loop
 
 void loadYins(){
+	if(currentZone % 5 == 1 && currentZone > 1) yinBulletSpeed++;
 	for(s16 i = 0; i < YIN_COUNT; i++){
 		yins[i].pos.x = i == 0 ? 6 : (i == 2 ? 251 : 128);
-		yins[i].pos.y = i % 2 == 0 ? 96 : 21;
+		yins[i].pos.y = i % 2 == 0 ? (i == 0 ? 64 : 96) : 21;
 		yins[i].speed = 20;
 		yins[i].horizontal = i % 2 == 1;
 		yins[i].last = i % 3 == 2;
@@ -117,8 +107,8 @@ void loadYins(){
 
 void resetYins(){
 	for(s16 i = 0; i < YIN_COUNT; i++){
-		yins[i].pos.x = GAME_WIDTH + 32;
-		yins[i].pos.y = 64;
+		yins[i].pos.x = i == 0 ? 6 : (i == 2 ? 251 : 128);
+		yins[i].pos.y = i % 2 == 0 ? (i == 0 ? 64 : 96) : 21;
 		SPR_releaseSprite(yins[i].image);
 	}
 }

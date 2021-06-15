@@ -30,66 +30,42 @@ void podPatternOne(s16 i){
 	struct bulletSpawner bSpawn = {
 		.x = pods[i].pos.x,
 		.y = pods[i].pos.y,
-		.type = 4
-	};
-	bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, 3, 0, TRUE);
-	bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, 3, 0, FALSE);
-	spawnEnemyBullet(bSpawn, eUpdate);
-}
-
-void podPatternTwo(s16 i){
-	struct bulletSpawner bSpawn = {
-		.x = pods[i].pos.x,
-		.y = pods[i].pos.y,
-		.type = 2
-	};
-	bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, 2, 64, TRUE);
-	bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, 2, 64, FALSE);
-	spawnEnemyBullet(bSpawn, eUpdate);
-	bSpawn.type = 4;
-	bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, 2, 0, TRUE);
-	bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, 2, 0, FALSE);
-	spawnEnemyBullet(bSpawn, eUpdate);
-}
-
-void podPatternThree(s16 i){
-	struct bulletSpawner bSpawn = {
-		.x = pods[i].pos.x,
-		.y = pods[i].pos.y,
-		.type = 3,
-		.speed = FIX16(5),
+		.type = 4,
 		.angle = random() % 1024,
-		.flag1 = FALSE
+		.speed = FIX16(podBulletSpeed)
 	};
-	void bUpdate(s16 j){
-		if(bullets[j].clock % 5 == 0 && bullets[j].clock > 0 && bullets[j].speed > FIX16(bullets[j].flag1 ? 3 : 2)){
-			bullets[j].speed = fix16Sub(bullets[j].speed, FIX16(1));
-			updateEnemyBulletVelocity(j);
-		}
-	}
-	for(s16 b = 0; b < 4; b++){
-		spawnEnemyBullet(bSpawn, bUpdate);
-		bSpawn.angle += 256;
-	}
-	bSpawn.angle += 128;
-	bSpawn.type = 4;
-	bSpawn.flag1 = TRUE;
-	for(s16 b = 0; b < 4; b++){
-		spawnEnemyBullet(bSpawn, bUpdate);
-		bSpawn.angle += 256;
+	for(s8 b = 0; b < 3; b++){
+		spawnEnemyBullet(bSpawn, eUpdate);
+		bSpawn.angle += 341;
 	}
 }
 
-void podPatternFour(s16 i){}
-
-void podPatternFive(s16 i){
+void podPatternTwo(s8 i, s8 mod, s16 aMod){
+	struct bulletSpawner bSpawn = {
+		.x = pods[i].pos.x,
+		.y = pods[i].pos.y,
+		.type = 4,
+		.angle = random() % 1024,
+		.speed = FIX16(podBulletSpeed)
+	};
+	for(s8 b = 0; b < 3 + mod; b++){
+		spawnEnemyBullet(bSpawn, eUpdate);
+		bSpawn.angle += aMod;
+	}
+	bSpawn.speed = FIX16(podBulletSpeed + 1);
+	bSpawn.type = 3;
+	bSpawn.angle += aMod / 2;
+	for(s8 b = 0; b < 3 + mod; b++){
+		spawnEnemyBullet(bSpawn, eUpdate);
+		bSpawn.angle += aMod;
+	}
 }
 
 void shootPod(s16 i){
-	// if(currentZone < 3 || pods[i].random) podPatternOne(i);
-	// else if(currentZone < 6) podPatternTwo(i);
-	// else podPatternThree(i);
-	podPatternOne(i);
+	if(currentZone == 1) podPatternOne(i);
+	else if(currentZone < 5) podPatternTwo(i, 0, 342);
+	else if(currentZone < 10) podPatternTwo(i, 1, 256);
+	else podPatternTwo(i, 2, 204);
 }
 
 
@@ -106,6 +82,7 @@ void killPod(s16 i){
 // loop
 
 void loadPod(){
+	if(currentZone % 5 == 1 && currentZone > 1) podBulletSpeed++;
 	currentPodCount = 0;
 	if(currentZone >= 3) currentPodCount = 1;
 	if(currentZone >= 6) currentPodCount = 2;

@@ -66,3 +66,5 @@ IMAGE startGradient "start/gradient.png" FAST
 IMAGE startBottom "start/bottom.png" FAST
 IMAGE startLogo "start/logo.png" FAST
 IMAGE startLogoV "start/logov.png" FAST
+IMAGE startAbout "start/about.png" FAST
+IMAGE startAbout2 "start/about2.png" FAST

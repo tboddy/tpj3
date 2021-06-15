@@ -11,12 +11,13 @@ struct yin {
 struct yin yins[YIN_COUNT];
 
 void loadYins(),
-	moveYinHorizontal(s16),
-	moveYinVertical(s16),
-	yinPatternOne(s16),
-	yinPatternTwo(s16),
-	yinPatternThree(s16),
-	yinPatternFour(s16),
-	yinShoot(s16),
+	moveYinHorizontal(s8),
+	moveYinVertical(s8),
+	yinPatternOne(s8),
+	yinPatternTwo(s8),
+	yinPatternThree(s8, s8),
+	yinPatternFour(s8),
+	yinPatternFive(s8),
+	yinShoot(s8),
 	resetYins(),
 	updateYins();

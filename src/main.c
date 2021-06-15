@@ -25,8 +25,9 @@ void loadGame(){
 	started = TRUE;
 	zoneStarting = TRUE;
 	gameStarting = TRUE;
+	yinBulletSpeed = 4;
+	podBulletSpeed = 3;
 	loadExplosion();
-	// loadBoss();
 };
 
 void updateGame(){
@@ -45,17 +46,18 @@ void updateGame(){
 };
 
 void nextZone(){
+	SPR_reset();
+	loadExplosion();
+	if(currentZone % 5 == 0) loadBoss();
 	resetBackground();
 	resetEnemies();
 	resetPlayer();
-	// SPR_reset();
 	zoneOver = FALSE;
 	loadedZoneOver = FALSE;
 	zoneFinished = TRUE;
 	zoneStarting = TRUE;
 	zoneOverClock = 0;
 	gameClock = 0;
-	if(currentZone % 5 == 0) loadBoss();
 }
 
 int main() {

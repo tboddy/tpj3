@@ -145,11 +145,10 @@ void destroyCentipede(s16 i){
 // loop
 
 void loadCentipede(){
-	centipedeCount = 4;
-	if(currentZone >= 2) centipedeCount = 5;
-	if(currentZone >= 5) centipedeCount = 5;
-	if(currentZone >= 10) centipedeCount = 7;
-	if(currentZone >= 15) centipedeCount = 8;
+	centipedeCount = 3;
+	if(currentZone >= 5) centipedeCount = 4;
+	if(currentZone >= 10) centipedeCount = 5;
+	if(currentZone >= 15) centipedeCount = 6;
 	for(s16 i = 0; i < centipedeCount; i++){
 		centipedes[i].active = TRUE;
 		centipedes[i].pos.x = FIX16(16 + 16 * i);

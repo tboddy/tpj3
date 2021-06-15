@@ -22,6 +22,7 @@ bool killBullets;
 
 s32 enemyBulletCollisionDistance;
 s16 killBulletsClock, enemyBulletCount;
+s8 podBulletSpeed, yinBulletSpeed;
 
 fix16 honeX, honeY, honeSpeed, 
 	honeEnemyBullet(fix16, fix16, s16, s16, bool);

@@ -27,10 +27,7 @@ bool foundRandomPodMatch;
 
 void loadPod(),
 	podPatternOne(s16),
-	podPatternTwo(s16),
-	podPatternThree(s16),
-	podPatternFour(s16),
-	podPatternFive(s16),
+	podPatternTwo(s8, s8, s16),
 	shootPod(s16),
 	destroyPod(s16),
 	killPod(s16),

@@ -99,6 +99,10 @@ void resetPlayer(){
 	playerPos.x = PLAYER_INIT_X;
 	playerPos.y = PLAYER_INIT_Y;
 	SPR_releaseSprite(playerSprite);
+	for(s16 i = 0; i < PLAYER_BULLET_LIMIT; i++) if(playerBullets[i].active){
+		playerBullets[i].active = FALSE;
+		SPR_releaseSprite(playerBullets[i].image);
+	}
 }
 
 void updatePlayer(){
