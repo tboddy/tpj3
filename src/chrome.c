@@ -45,26 +45,21 @@ void loadChromeZone(){
 void loadChromeZoneOver(){
 	chromePlayerLives = 0;
 	intToStr(currentZone, currentZoneStr, 2);
-
 	VDP_drawText("stage", 7, 8);
 	VDP_drawText(currentZoneStr, 13, 8);
 	VDP_drawText("complete!", 16, 8);
-
 	VDP_drawText("BONUS TIME", 7, 12);
 	VDP_drawText("00000", 20, 12);
-
 	VDP_drawText("NO-MISS", 7, 14);
 	VDP_drawText("00000", 20, 14);
-
 	VDP_drawText("STAGE", 7, 16);
 	VDP_drawText("00000", 20, 16);
-
 	currentZone++;
 	VDP_drawText("next stage", 7, 21);
 	loadedZoneOver = TRUE;
 }
 
-void updateChromeZoneOver(){ // lmao
+void updateChromeZoneOver(){ // what the fuck am i on to do this
 	strcpy(zoneOverTime, zoneOverClock >= 180 ? "3" : (zoneOverClock >= 120 ? "2" : (zoneOverClock >= 60 ? "1" : "0")));
 	strcat(zoneOverTime, ";");
 	if(zoneOverClock % 60 < 10) strcat(zoneOverTime, "0");
@@ -90,6 +85,14 @@ void updateChromeZoneOver(){ // lmao
 	if(zoneOverClock <= 0){
 		nextZone();
 	}
+}
+
+void loadChromeGameOver(){
+	loadedChromeGameOver = TRUE;
+	VDP_drawText("game over!", 11, 10);
+	VDP_drawText("FINAL SCORE;", 10, 13);
+	VDP_drawText("00000000", 12, 15);
+	VDP_drawText("PRESS ANY BUTTON", 8, 18);
 }
 
 
@@ -136,6 +139,8 @@ void updateChrome(){
 		if(zoneOver){
 			if(!loadedZoneOver) loadChromeZoneOver();
 			updateChromeZoneOver();
+		} else if(gameOver){
+			if(!loadedChromeGameOver) loadChromeGameOver();
 		} else {
 			updateChromePlayerLives();
 			updateChromeBoss();

@@ -24,11 +24,26 @@ void loadGame(){
 	started = TRUE;
 	zoneStarting = TRUE;
 	gameStarting = TRUE;
+	noMiss = TRUE;
 	yinBulletSpeed = 4;
 	podBulletSpeed = 3;
 	playerLives = 3;
 	loadExplosion();
 };
+
+void resetGame(){
+	VDP_clearPlane(BG_A, TRUE);
+	VDP_clearPlane(BG_B, TRUE);
+	DMA_waitCompletion();
+	zoneOver = FALSE;
+	started = FALSE;
+	paused = FALSE;
+	gameOver = FALSE;
+	SPR_reset();
+	for(s8 i = 0; i < BG_SCROLL_WIDTH; i++) backgroundScrolls[i] = 0;
+	VDP_setVerticalScrollTile(BG_B, 0, backgroundScrolls, BG_SCROLL_WIDTH, DMA_QUEUE);
+	loadStart();
+}
 
 void updateGame(){
 	if(started && !paused){
@@ -40,14 +55,16 @@ void updateGame(){
 		if(gameClock >= 1800) gameClock = 0;
 	}
 	updateChrome();
-	if(zoneFinished) zoneFinished = FALSE;
-	else if(zoneStarting) zoneStarting = FALSE;
+	if(zoneStarting) zoneStarting = FALSE;
 	if(gameStarting) gameStarting = FALSE;
 	if(!gameOver && started && gameClock >= 15){
 		if(controls.start && !pausing){
 			pausing = TRUE;
 			paused = paused ? FALSE : TRUE;
 		} else if(!controls.start && pausing) pausing = FALSE;
+	} else if(gameOver){
+		if(gameOverClock < 600) gameOverClock++;
+		if(gameOverClock >= 30 && (controls.a || controls.b || controls.c || controls.start)) resetGame();
 	}
 };
 
@@ -60,7 +77,6 @@ void nextZone(){
 	resetPlayer();
 	zoneOver = FALSE;
 	loadedZoneOver = FALSE;
-	zoneFinished = TRUE;
 	zoneStarting = TRUE;
 	zoneOverClock = 0;
 	gameClock = 0;

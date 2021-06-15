@@ -12,7 +12,7 @@ s8 chromePlayerLives;
 
 fix16 bossLimit, lastBossLimit;
 
-bool loadedZoneOver;
+bool loadedZoneOver, loadedChromeGameOver;
 
 char currentZoneStr[2],
 	zoneHudStr[2],
@@ -23,6 +23,7 @@ void loadChrome(),
 	loadChromeZoneOver(),
 	loadChromeLives(),
 	loadChromeScore(),
+	loadChromeGameOver(),
 	updateChromeZoneOver(),
 	updateChromePlayerLives(),
 	updateChromeBoss(),

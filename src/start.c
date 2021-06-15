@@ -139,11 +139,11 @@ void updateStartAbout(){
 // score & credit
 
 void loadStartScore(){
-	VDP_drawText("HIGH 00002000", 1, 26);
+	VDP_drawText("HI 00002000", 1, 26);
 }
 
 void loadStartCredit(){
-
+	VDP_drawText("06.2021 T.BODDY", 16, 26);
 }
 
 
@@ -155,9 +155,7 @@ void loadStart(){
 	loadStartLogo();
 	loadStartMenu();
 	loadStartScore();
-	// loadStartAbout();
-	// resetStart();
-	// loadGame();
+	loadStartCredit();
 }
 
 void resetStart(){
