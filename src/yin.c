@@ -2,6 +2,7 @@
 #include <resources.h>
 
 #include "main.h"
+#include "explosion.h"
 #include "enemies.h"
 #include "yin.h"
 
@@ -41,6 +42,7 @@ void yinPatternOne(s8 i){
 		bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, yinBulletSpeed, 0, TRUE);
 		bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, yinBulletSpeed, 0, FALSE);
 		spawnEnemyBullet(bSpawn, eUpdate);
+		spawnExplosion(yins[i].pos.x, yins[i].pos.y, FALSE);
 	}
 }
 
@@ -54,6 +56,7 @@ void yinPatternTwo(s8 i){
 		bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, yinBulletSpeed, bSpawn.type == 1 ? 32 : 0, TRUE);
 		bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, yinBulletSpeed, bSpawn.type == 1 ? 32 : 0, FALSE);
 		spawnEnemyBullet(bSpawn, eUpdate);
+		spawnExplosion(yins[i].pos.x, yins[i].pos.y, FALSE);
 	}
 }
 
