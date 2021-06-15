@@ -5,6 +5,7 @@
 #include "enemies.h"
 #include "explosion.h"
 #include "player.h"
+#include "chrome.h"
 #include "boss.h"
 
 
@@ -467,7 +468,7 @@ void shootBoss(){
 
 void hitBoss(){
 	bossHealth--;
-	// bossHealth -= 2;
+	// bossHealth -= 10;
 	if(bossHealth <= 0) finishBoss();
 }
 
@@ -489,6 +490,11 @@ void finishBoss(){
 	bossLoaded = FALSE;
 	zoneOver = TRUE;
 	bossClock = BOSS_SWITCH_TIME;
+	for(s8 x = 0; x < 8; x++) for(s8 y = 0; y < 8; y++) VDP_setTileMapXY(BG_A, TILE_ATTR_FULL(PAL1, 0, 0, 0, 11), x + 12, y + 4);
+	for(s8 x = 0; x < BOSS_TILE_COUNT; x++) VDP_setTileMapXY(BG_A, TILE_ATTR_FULL(PAL1, 0, 0, 0, 11), x + 1, BOSS_TILE_Y);
+
+
+			// VDP_drawImageEx(BG_A, &chromeEnemy, TILE_ATTR_FULL(PAL1, 1, 0, 0, 190), 1, BOSS_TILE_Y, 0, DMA_QUEUE);
 }
 
 

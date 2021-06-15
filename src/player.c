@@ -38,8 +38,8 @@ void updatePlayerMove(){
 		}
 		else playerVelocity.x = MOVEMENT_POS;
 	} else if(controls.up || controls.down) playerVelocity.y = controls.up ? MOVEMENT_NEG : MOVEMENT_POS;
-	playerPos.x += fix16Mul(playerVelocity.x, PLAYER_SPEED);
-	playerPos.y += fix16Mul(playerVelocity.y, PLAYER_SPEED);
+	playerPos.x += fix16Mul(playerVelocity.x, controls.b ? PLAYER_SPEED_FOCUS : PLAYER_SPEED);
+	playerPos.y += fix16Mul(playerVelocity.y, controls.b ? PLAYER_SPEED_FOCUS : PLAYER_SPEED);
 	updatePlayerBounds();
 	SPR_setPosition(playerSprite, fix16ToInt(playerPos.x) - 11, fix16ToInt(playerPos.y) - 16);
 }
@@ -73,8 +73,8 @@ void updatePlayerBullets(){
 }
 
 void updatePlayerShot(){
-	if(playerShotClock >= PLAYER_SHOT_INTERVAL && (controls.a || controls.b)) playerShotClock = 0;
-	if(playerShotClock == 0 && !zoneOver) spawnPlayerBullet(controls.b && !controls.a);
+	if(playerShotClock >= PLAYER_SHOT_INTERVAL && (controls.a || controls.c)) playerShotClock = 0;
+	if(playerShotClock == 0 && !zoneOver) spawnPlayerBullet(controls.c && !controls.a);
 	playerShotClock++;
 	if(playerShotClock >= 600) playerShotClock = PLAYER_SHOT_INTERVAL;
 }
