@@ -72,6 +72,7 @@ void updateStartMenu(){
 		if(currentStartMenu > 1) currentStartMenu = 0;
 		else if(currentStartMenu < 0) currentStartMenu = 1;
 		selectingStartMenu = TRUE;
+		XGM_startPlayPCM(SFX_MENU_SELECT, 1, SOUND_PCM_CH2);
 	} else if(!controls.up && !controls.down && !controls.a && !controls.b && !controls.c && !controls.start && selectingStartMenu) selectingStartMenu = FALSE;
 }
 
@@ -80,10 +81,12 @@ void selectStartMenu(){
 	switch(currentStartMenu){
 		case 0:
 			resetStart();
+			XGM_startPlayPCM(SFX_START_GAME, 1, SOUND_PCM_CH2);
 			loadGame();
 			break;
 		case 1:
 			loadStartAbout();
+			XGM_startPlayPCM(SFX_MENU_CHOOSE, 1, SOUND_PCM_CH2);
 			break;
 	}
 }
@@ -107,11 +110,12 @@ void loadStartAbout(){
 	VDP_drawText("USE HER TOOLS OVER 20 STAGES &", 1, aboutY); aboutY++;
 	VDP_drawText("DIG UP SOME SWEETS TO BRING TO", 1, aboutY); aboutY++;
 	VDP_drawText("##MEGUMU##", 11, aboutY);
-	aboutY += 3;
+	aboutY += 2;
 	VDP_drawText("how to play", 1, aboutY); aboutY += 2;
 	VDP_drawText("d=pad  MOVE", 1, aboutY); aboutY++;
-	VDP_drawText("a,c    SHOOT", 1, aboutY); aboutY++;
+	VDP_drawText("a      SHOOT", 1, aboutY); aboutY++;
 	VDP_drawText("b      FOCUS/SLOW", 1, aboutY); aboutY++;
+	VDP_drawText("c      BOMB", 1, aboutY); aboutY++;
 	VDP_drawText("start  PAUSE", 1, aboutY);
 	aboutY += 3;
 	VDP_drawText("EVERYTHING BY T.BODDY", 1, aboutY); aboutY++;
@@ -202,7 +206,6 @@ void updateStart(){
 		loadStartMenu();
 		loadStartScore();
 		loadStartCredit();
-		XGM_setLoopNumber(0);
 		XGM_startPlay(&bgmStart);
 	}
 	startClock++;

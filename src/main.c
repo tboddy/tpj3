@@ -17,6 +17,25 @@ void loadResources(){
 	VDP_loadTileSet(full.tileset, 12, DMA);
 	VDP_setPalette(PAL1, font.palette -> data);
 	VDP_setTextPalette(1);
+
+	XGM_setPCM(SFX_MENU_SELECT, sfxMenuSelect, sizeof(sfxMenuSelect)); // shit
+	XGM_setPCM(SFX_MENU_CHOOSE, sfxMenuChoose, sizeof(sfxMenuChoose));
+	XGM_setPCM(SFX_START_GAME, sfxStartGame, sizeof(sfxStartGame));
+	XGM_setPCM(SFX_PLAYER_SHOT, sfxPlayerShot, sizeof(sfxPlayerShot));
+	XGM_setPCM(SFX_ZONE_OVER, sfxZoneOver, sizeof(sfxZoneOver));
+
+	XGM_setPCM(SFX_BULLET_1, sfxBullet1, sizeof(sfxBullet1));
+	XGM_setPCM(SFX_BULLET_2, sfxBullet2, sizeof(sfxBullet2));
+	XGM_setPCM(SFX_BULLET_3, sfxBullet3, sizeof(sfxBullet3));
+	XGM_setPCM(SFX_BULLET_4, sfxBullet4, sizeof(sfxBullet4));
+
+	XGM_setPCM(SFX_EXPLOSION_1, sfxExplosion1, sizeof(sfxExplosion1));
+	XGM_setPCM(SFX_EXPLOSION_2, sfxExplosion2, sizeof(sfxExplosion2));
+	XGM_setPCM(SFX_EXPLOSION_3, sfxExplosion3, sizeof(sfxExplosion3));
+
+	XGM_setPCM(SFX_GAME_OVER, sfxGameOver, sizeof(sfxGameOver));
+	XGM_setPCM(SFX_BEAT_GAME, sfxBeatGame, sizeof(sfxBeatGame));
+
 }
 
 void loadGame(){
@@ -30,7 +49,6 @@ void loadGame(){
 	currentScore = 0;
 	playerLives = 5;
 	loadExplosion();
-	XGM_setLoopNumber(-1);
 	XGM_startPlay(&bgmStage1);
 }
 
@@ -97,10 +115,13 @@ void nextZone(){
 		loadedZoneOver = FALSE;
 		gameClock = -5;
 		noMiss = TRUE;
+		XGM_startPlayPCM(SFX_START_GAME, 1, SOUND_PCM_CH2);
+		if(currentZone == 11) XGM_startPlay(&bgmStage2);
 	}
 }
 
 int main() {
+	XGM_setLoopNumber(-1);
 	JOY_init();
 	JOY_setEventHandler(&updateControls);
 	loadResources();

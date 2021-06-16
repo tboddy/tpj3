@@ -25,6 +25,10 @@
 #define PLAYER_BULLET_DUMP_X GAME_WIDTH + 16
 #define PLAYER_BULLET_DUMP_Y GAME_HEIGHT + 16
 
+#define RECOVER_INTERVAL 30
+#define RECOVER_INTERVAL_HALF 15
+#define RECOVER_MAX RECOVER_INTERVAL * 6
+
 struct playerBullet {
 	bool active, downward;
 	Vect2D_f16 pos;
@@ -36,7 +40,7 @@ Sprite* playerSprite;
 
 Vect2D_f16 playerPos, playerVelocity;
 
-s16 playerShotClock;
+s16 playerShotClock, recoverClock;
 s8 playerLives;
 
 bool hitPlayer, playerRecovering;

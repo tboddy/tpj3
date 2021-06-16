@@ -72,7 +72,27 @@ IMAGE startAbout2 "start/about2.png" FAST
 SPRITE startBoddy1 "start/boddy.png" 7 4 FAST 5
 SPRITE startBoddy2 "start/boddy2.png" 7 4 FAST 5
 
-XGM bgmStart "bgm/start.vgm"
-XGM bgmStage1 "bgm/stage1.vgm"
-// XGM bgmStage2 "bgm/stage2.vgm"
-// WAV sfxExplosion "sfx/explosion.wav" 5
+XGM bgmStart "bgm/start.vgm" 0
+XGM bgmStage1 "bgm/stage1.vgm" 0
+XGM bgmStage2 "bgm/stage2.vgm" 0
+
+WAV sfxMenuSelect "sfx/menuselect.wav" 5
+WAV sfxMenuChoose "sfx/menuchoose.wav" 5
+WAV sfxStartGame "sfx/startgame.wav" 5
+WAV sfxZoneOver "sfx/zoneover.wav" 5
+
+WAV sfxPlayerHit "sfx/playerhit.wav" 5
+WAV sfxPlayerShot "sfx/playershot.wav" 5
+
+WAV sfxBullet1 "sfx/bullet1.wav" 5
+WAV sfxBullet2 "sfx/bullet2.wav" 5
+WAV sfxBullet3 "sfx/bullet3.wav" 5
+WAV sfxBullet4 "sfx/bullet4.wav" 5
+
+WAV sfxExplosion1 "sfx/explosion1.wav" 5
+WAV sfxExplosion2 "sfx/explosion2.wav" 5
+WAV sfxExplosion3 "sfx/explosion3.wav" 5
+
+WAV sfxGameOver "sfx/gameover.wav" 5
+WAV sfxBeatGame "sfx/beatgame.wav" 5
+

@@ -38,6 +38,7 @@ void podPatternOne(s16 i){
 		spawnEnemyBullet(bSpawn, eUpdate);
 		bSpawn.angle += 341;
 	}
+	XGM_startPlayPCM(SFX_BULLET_2, 0, SOUND_PCM_CH3);
 }
 
 void podPatternTwo(s8 i, s8 mod, s16 aMod){

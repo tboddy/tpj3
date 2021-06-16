@@ -55,6 +55,7 @@ void spawnPlayerBullet(bool downward){
 	playerBullets[i].pos.y = fix16Sub(playerPos.y, FIX16(8));
 	playerBullets[i].downward = downward ? TRUE : FALSE;
 	SPR_setVFlip(playerBullets[i].image, downward ? 1 : 0);
+	XGM_startPlayPCM(SFX_PLAYER_SHOT, 0, SOUND_PCM_CH4);
 }
 
 void removePlayerBullet(s16 i){
@@ -90,25 +91,21 @@ void updatePlayerHit(){
 		playerPos.y = PLAYER_INIT_Y;
 		playerLives -= 1;
 		noMiss = FALSE;
-		// if(playerLives < 0) gameOver = TRUE;
+		XGM_startPlayPCM(random() % 2 < 1 ? SFX_EXPLOSION_1 : SFX_EXPLOSION_2, 1, SOUND_PCM_CH4);
+		spawnExplosion(fix16ToInt(playerPos.x), fix16ToInt(playerPos.y), TRUE);
 		if(playerLives < 0) playerLives = 0;
+		if(playerLives < 0) gameOver = TRUE;
 	}
-	// if(!gameOver && player.recovering){
-		// if(player.recoverClock % RECOVER_INTERVAL == 0){
-		// 	SPR_setVisibility(player.image, HIDDEN);
-		// 	SPR_setVisibility(player.hitboxImage, HIDDEN);
-		// } else if(player.recoverClock % RECOVER_INTERVAL == RECOVER_INTERVAL / 2){
-		// 	SPR_setVisibility(player.image, VISIBLE);
-		// 	SPR_setVisibility(player.hitboxImage, VISIBLE);
-		// }
-		// player.recoverClock++;
-		// if(player.recoverClock >= RECOVER_INTERVAL * 6){
-		// 	SPR_setVisibility(player.image, VISIBLE);
-		// 	SPR_setVisibility(player.hitboxImage, VISIBLE);
-		// 	player.recoverClock = 0;
-		// 	player.recovering = FALSE;
-		// }
-	// }
+	if(!gameOver && playerRecovering){
+		if(recoverClock % RECOVER_INTERVAL == 0) SPR_setVisibility(playerSprite, HIDDEN);
+		else if(recoverClock % RECOVER_INTERVAL == RECOVER_INTERVAL_HALF) SPR_setVisibility(playerSprite, VISIBLE);
+		recoverClock++;
+		if(recoverClock >= RECOVER_MAX){
+			SPR_setVisibility(playerSprite, VISIBLE);
+			recoverClock = 0;
+			playerRecovering = FALSE;
+		}
+	}
 }
 
 

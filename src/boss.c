@@ -25,6 +25,7 @@ void bossPatternOne(){
 			if(bSpawn.angle % 1024 >= 0 && bSpawn.angle % 1024 <= 512) spawnEnemyBullet(bSpawn, eUpdate);
 			bSpawn.angle += 170;
 		}
+		XGM_startPlayPCM(SFX_BULLET_1, 0, SOUND_PCM_CH3);
 		bossInt1 += bossClock % 120 < 60 ? 32 : -32;
 		if(bossClock % 30 == 0) spawnExplosion(fix16ToInt(bSpawn.x), fix16ToInt(bSpawn.y), FALSE);
 		if(bossClock % 20 == 10){
@@ -32,6 +33,7 @@ void bossPatternOne(){
 			bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, 4, 16, FALSE);
 			bSpawn.type = 4;
 			spawnEnemyBullet(bSpawn, eUpdate);
+			XGM_startPlayPCM(SFX_BULLET_2, 1, SOUND_PCM_CH3);
 		}
 	}
 }
@@ -56,6 +58,7 @@ void bossPatternTwo(){
 			bSpawn.speed = fix16Add(bSpawn.speed, FIX16(1.5));
 			bSpawn.angle += bossInt3;
 		}
+		XGM_startPlayPCM(SFX_BULLET_1, 0, SOUND_PCM_CH3);
 		bossInt1 += bossInt2;
 	}
 }
@@ -80,6 +83,7 @@ void bossPatternThree(){
 			spawnEnemyBullet(bSpawn, eUpdate);
 			bSpawn.angle += bossInt2;
 		}
+		XGM_startPlayPCM(SFX_BULLET_1, 0, SOUND_PCM_CH3);
 		bossInt1++;
 	}
 	else if(bossClock % 60 >= 30 && bossClock % 5 == 0){
@@ -95,6 +99,7 @@ void bossPatternThree(){
 		bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, 4, 96, TRUE);
 		bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, 4, 16, FALSE);
 		spawnEnemyBullet(bSpawn, eUpdate);
+		XGM_startPlayPCM(SFX_BULLET_2, 1, SOUND_PCM_CH3);
 	}
 }
 
@@ -112,6 +117,7 @@ void bossPatternFour(){
 			bSpawn.angle += 64;
 			if(b > 0) spawnEnemyBullet(bSpawn, eUpdate);
 		}
+		XGM_startPlayPCM(SFX_BULLET_1, 0, SOUND_PCM_CH3);
 		bossInt1++;
 	} else if(bossClock % 60 >= 30 && bossClock % 5 == 0){
 		struct bulletSpawner bSpawn = {
@@ -122,6 +128,7 @@ void bossPatternFour(){
 		bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, 4, 96, TRUE);
 		bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, 4, 16, FALSE);
 		spawnEnemyBullet(bSpawn, eUpdate);
+		XGM_startPlayPCM(SFX_BULLET_3, 1, SOUND_PCM_CH3);
 		spawnExplosion(fix16ToInt(bSpawn.x), fix16ToInt(bSpawn.y), FALSE);
 	}
 }
@@ -141,6 +148,7 @@ void bossPatternFive(){
 			}
 			bSpawn.angle += 64;
 		}
+		XGM_startPlayPCM(SFX_BULLET_1, 0, SOUND_PCM_CH3);
 	} else if(bossClock % 60 >= 30 && bossClock % 60 < 45 && bossClock % 5 == 0){
 		struct bulletSpawner bSpawn = {
 			.x = BOSS_B_X,
@@ -150,6 +158,7 @@ void bossPatternFive(){
 		bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, 5, 128, TRUE);
 		bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, 5, 16, FALSE);
 		spawnEnemyBullet(bSpawn, eUpdate);
+		XGM_startPlayPCM(SFX_BULLET_2, 0, SOUND_PCM_CH3);
 	}
 	if(bossClock % 60 >= 30 && bossClock % 5 == 3){
 		struct bulletSpawner bSpawn = {
@@ -165,6 +174,7 @@ void bossPatternFive(){
 		bSpawn.velocityX = honeEnemyBullet(bossFix1, bossFix2, 4, 32, TRUE);
 		bSpawn.velocityY = honeEnemyBullet(bossFix1, bossFix2, 4, 16, FALSE);
 		spawnEnemyBullet(bSpawn, eUpdate);
+		XGM_startPlayPCM(SFX_BULLET_3, 1, SOUND_PCM_CH3);
 	}
 }
 
@@ -187,6 +197,7 @@ void bossPatternSix(){
 			if(bSpawn.angle % 1024 < 512) spawnEnemyBullet(bSpawn, eUpdate);
 			bSpawn.angle += 512;
 		}
+		XGM_startPlayPCM(SFX_BULLET_1, 0, SOUND_PCM_CH3);
 		bSpawn.x = FIX16(208);
 		bSpawn.angle = bossInt2;
 		if(bossClock % 10 == 5) spawnExplosion(fix16ToInt(bSpawn.x), fix16ToInt(bSpawn.y), FALSE);
@@ -215,6 +226,7 @@ void bossPatternSeven(){
 				if(bSpawn.angle % 1024 > 32 && bSpawn.angle % 1024 < 480) spawnEnemyBullet(bSpawn, eUpdate);
 				bSpawn.angle += 64;
 			}
+			XGM_startPlayPCM(SFX_BULLET_1, 0, SOUND_PCM_CH3);
 			bossInt1 += 24;
 		}
 		if(bossClock % 10 == 5){
@@ -226,6 +238,7 @@ void bossPatternSeven(){
 			bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, 5, 128, TRUE);
 			bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, 5, 16, FALSE);
 			spawnEnemyBullet(bSpawn, eUpdate);
+			XGM_startPlayPCM(SFX_BULLET_3, 1, SOUND_PCM_CH3);
 		}
 	}
 }
@@ -248,6 +261,7 @@ void bossPatternEight(){
 			} else bSpawn.angle += 48;
 			bSpawn.angle += 80;
 		}
+		XGM_startPlayPCM(SFX_BULLET_2, 0, SOUND_PCM_CH3);
 	} else if(bossClock % 30 == 15){
 		struct bulletSpawner bSpawn = {
 			.x = FIX16(bossClock % 60 == 15 ? 192 : 64),
@@ -261,6 +275,7 @@ void bossPatternEight(){
 			if(bSpawn.angle % 1024 > 0 && bSpawn.angle % 1024 < 512) spawnEnemyBullet(bSpawn, eUpdate);
 			bSpawn.angle += 64;
 		}
+		XGM_startPlayPCM(SFX_BULLET_3, 1, SOUND_PCM_CH3);
 	}
 }
 
@@ -278,6 +293,7 @@ void bossPatternNine(){
 			bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, 5, 8, FALSE);
 			spawnEnemyBullet(bSpawn, eUpdate);
 		}
+		XGM_startPlayPCM(SFX_BULLET_2, 0, SOUND_PCM_CH3);
 	}
 }
 
@@ -295,6 +311,7 @@ void bossPatternTen(){
 			if(bSpawn.angle % 1024 > 0 && bSpawn.angle % 1024 < 512) spawnEnemyBullet(bSpawn, eUpdate);
 			bSpawn.angle += 64;
 		}
+		XGM_startPlayPCM(SFX_BULLET_1, 0, SOUND_PCM_CH3);
 	}
 	else if(bossClock % 60 > 15 && bossClock % 60 < 30 && bossClock % 2 == 0){
 		struct bulletSpawner bSpawn = {
@@ -305,6 +322,7 @@ void bossPatternTen(){
 		bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, 6, 96, TRUE);
 		bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, 6, 8, FALSE);
 		spawnEnemyBullet(bSpawn, eUpdate);
+		XGM_startPlayPCM(SFX_BULLET_2, 1, SOUND_PCM_CH3);
 	}
 }
 
@@ -320,6 +338,7 @@ void bossPatternEleven(){
 		bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, bossInt1, 64, TRUE);
 		bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, bossInt1, 8, FALSE);
 		spawnEnemyBullet(bSpawn, eUpdate);
+		XGM_startPlayPCM(SFX_BULLET_2, 0, SOUND_PCM_CH3);
 		bossInt1++;
 	}
 	if(bossClock % 15 == 5){
@@ -334,6 +353,7 @@ void bossPatternEleven(){
 			if(bSpawn.angle % 1024 > 0 && bSpawn.angle % 1024 < 512) spawnEnemyBullet(bSpawn, eUpdate);
 			bSpawn.angle += 64;
 		}
+		XGM_startPlayPCM(SFX_BULLET_3, 1, SOUND_PCM_CH3);
 	}
 }
 
@@ -354,6 +374,7 @@ void bossPatternTwelve(){
 			spawnEnemyBullet(bSpawn, eUpdate);
 			bSpawn.angle += bossClock % 12 == 0 ? 64 : -64;
 		}
+		XGM_startPlayPCM(SFX_BULLET_1, 0, SOUND_PCM_CH3);
 		bossInt1 -= 8;
 		bossInt2 += 8;
 	}
@@ -370,10 +391,11 @@ void bossPatternTwelve(){
 		bSpawn.velocityX = bossFix1;
 		bSpawn.velocityY = bossFix2;
 		spawnEnemyBullet(bSpawn, eUpdate);
+		XGM_startPlayPCM(SFX_BULLET_2, 1, SOUND_PCM_CH3);
 	}
 }
 
-void bossPatternThirteen(){ // 8:09
+void bossPatternThirteen(){
 	if(bossClock % 5 == 0){
 		if(bossClock == 0){
 			bossInt1 = 0;
@@ -391,6 +413,7 @@ void bossPatternThirteen(){ // 8:09
 			if(bSpawn.angle % 1024 > 0 && bSpawn.angle % 1024 < 512) spawnEnemyBullet(bSpawn, eUpdate);
 			bSpawn.angle += 205;
 		}
+		XGM_startPlayPCM(SFX_BULLET_2, 0, SOUND_PCM_CH3);
 		bossInt1 += 19;
 		bossInt2 -= 15;
 		if(bossInt1 >= 1024) bossInt1 = 0;
@@ -408,6 +431,7 @@ void bossPatternThirteen(){ // 8:09
 			if(b > 0 && (bossClock % 60 == 35 || (bossClock % 60 == 36 && b < 7))) spawnEnemyBullet(bSpawn, eUpdate);
 			bSpawn.angle += 64;
 		}
+		XGM_startPlayPCM(SFX_BULLET_3, 1, SOUND_PCM_CH3);
 	}
 }
 

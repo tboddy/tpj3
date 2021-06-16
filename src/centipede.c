@@ -73,6 +73,7 @@ void animateCentipede(s16 i){
 void hitCentipede(s16 i){
 	spawnExplosion(fix16ToInt(centipedes[i].pos.x), fix16ToInt(centipedes[i].pos.y), TRUE);
 	centipedes[i].health -= CENTIPEDE_HIT;
+	XGM_startPlayPCM(random() % 2 < 1 ? SFX_EXPLOSION_1 : SFX_EXPLOSION_2, 1, SOUND_PCM_CH4);
 	currentScore += 7;
 	if(centipedes[i].health < 0){
 		struct podSpawner pSpawn = {
@@ -83,6 +84,7 @@ void hitCentipede(s16 i){
 		spawnPod(pSpawn);
 		destroyCentipede(i);
 		currentScore += currentZone >= 10 ? 2500 : 1500;
+		XGM_startPlayPCM(SFX_EXPLOSION_3, 2, SOUND_PCM_CH4);
 	} else if(centipedes[i].health < 33) centipedes[i].definition = 1;
 	else if(centipedes[i].health < 67) centipedes[i].definition = 2;
 }

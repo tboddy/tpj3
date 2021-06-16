@@ -59,7 +59,7 @@ void checkEnemyBulletCollision(s16 i){
 	enemyBulletCollisionDistance = getApproximatedDistance(
 		fix16ToFix32(playerPos.x) - fix16ToFix32(bullets[i].pos.x),
 		fix16ToFix32(playerPos.y) - fix16ToFix32(bullets[i].pos.y));
-	if(enemyBulletCollisionDistance < intToFix32(bullets[i].xOffset)){
+	if(enemyBulletCollisionDistance < intToFix32(bullets[i].xOffset) && !playerRecovering){
 		spawnExplosion(fix16ToInt(bullets[i].pos.x), fix16ToInt(bullets[i].pos.y), TRUE);
 		destroyEnemyBullet(i);
 		hitPlayer = TRUE;

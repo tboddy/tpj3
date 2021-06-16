@@ -59,12 +59,14 @@ void loadChromeZoneOver(){
 		VDP_drawText(currentZone >= 10 ? "30000" : "20000", 20, 16);
 		currentScore += currentZone >= 10 ? 30000 : 20000;
 	}
+	if(currentZone == 10) XGM_stopPlay();
 	currentZone++;
 	VDP_drawText("next stage", 7, 21);
 	loadedZoneOver = TRUE;
 	if(noMiss) currentScore += currentZone >= 10 ? 35000 : 25000;
 	currentScore += currentZone >= 10 ? 15000 : 10000;
 	updateChromeScore();
+	XGM_startPlayPCM(SFX_ZONE_OVER, 1, SOUND_PCM_CH2);
 }
 
 void updateChromeZoneOver(){ // what the fuck am i on to do this
@@ -103,6 +105,7 @@ void loadChromeGameOver(bool beatIt){
 		VDP_drawText("TOUHOU GAMEDEV DISCORD", 5, 21);
 	} else VDP_drawText("press any button", 8, 18);
 	if(currentScore > highScore) highScore = currentScore;
+	XGM_startPlayPCM(beatIt ? SFX_BEAT_GAME : SFX_GAME_OVER, 2, SOUND_PCM_CH2);
 }
 
 void loadChromeBeatGame(){

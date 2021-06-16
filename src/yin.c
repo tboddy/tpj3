@@ -42,6 +42,7 @@ void yinPatternOne(s8 i){
 		bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, yinBulletSpeed, 0, TRUE);
 		bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, yinBulletSpeed, 0, FALSE);
 		spawnEnemyBullet(bSpawn, eUpdate);
+		XGM_startPlayPCM(SFX_BULLET_1, 0, SOUND_PCM_CH3);
 		spawnExplosion(yins[i].pos.x, yins[i].pos.y, FALSE);
 	}
 }
@@ -56,6 +57,7 @@ void yinPatternTwo(s8 i){
 		bSpawn.velocityX = honeEnemyBullet(bSpawn.x, bSpawn.y, yinBulletSpeed, bSpawn.type == 1 ? 32 : 0, TRUE);
 		bSpawn.velocityY = honeEnemyBullet(bSpawn.x, bSpawn.y, yinBulletSpeed, bSpawn.type == 1 ? 32 : 0, FALSE);
 		spawnEnemyBullet(bSpawn, eUpdate);
+		XGM_startPlayPCM(SFX_BULLET_1, 0, SOUND_PCM_CH3);
 		spawnExplosion(yins[i].pos.x, yins[i].pos.y, FALSE);
 	}
 }
@@ -75,6 +77,7 @@ void yinPatternThree(s8 i, s8 count){
 			bSpawn.type = bSpawn.type == 2 ? 1 : 2;
 			bSpawn.int1 += 16;
 		}
+		XGM_startPlayPCM(SFX_BULLET_1, 0, SOUND_PCM_CH3);
 	}
 }
 

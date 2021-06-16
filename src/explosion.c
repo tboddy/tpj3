@@ -15,6 +15,7 @@ void loadExplosion(){
 void spawnExplosion(s16 x, s16 y, bool isPlayerShot){
 	SPR_setPosition(isPlayerShot ? explosionImagePlayerShot : explosionImage, x - EXPLOSION_SPRITE_OFFSET, y - EXPLOSION_SPRITE_OFFSET);
 	isPlayerShot ? (explosionClockPlayerShot = 0) : (explosionClock = 0);
+	// XGM_startPlayPCM(random() % 2 < 1 ? SFX_EXPLOSION_1 : SFX_EXPLOSION_2, 1, SOUND_PCM_CH4);
 }
 
 void updateExplosion(){
