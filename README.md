@@ -1,4 +1,5 @@
-sweetsdigger
+**sweetsdigger**
+
 touhou pride jam 3 entry
 arcade thing for sega genesis influenced by jeff minter's gridrunner and ZUN's highly responsive to prayers
 
