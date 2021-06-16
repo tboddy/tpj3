@@ -430,10 +430,10 @@ void shootBoss(){
 		case 2:
 			if(bossHealth < 50){
 				hitBossPattern(2);
-				if(bossClock >= 0) bossPatternFive();
+				if(bossClock >= 0) bossPatternFour();
 			} else if(bossHealth < 100){
 				hitBossPattern(1);
-				if(bossClock >= 0) bossPatternFour();
+				if(bossClock >= 0) bossPatternFive();
 			} else if(bossClock >= 0) bossPatternThree();
 			break;
 		case 3:

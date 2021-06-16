@@ -118,14 +118,22 @@ void loadStartAbout(){
 	VDP_drawText("FOR touhou pride game jam iii", 1, aboutY); aboutY++;
 	VDP_drawText("TOUHOU PROJECT COPYRIGHT ZUN?", 1, aboutY); aboutY += 2;
 	VDP_drawText("press any button to go back", 1, aboutY); aboutY++;
-	startClock = 0;
+	startClock = SEGA_LIMIT + 120;
 }
 
 void startGoBack(){
 	selectingStartMenu = TRUE;
 	aboutShowing = FALSE;
-	resetStart();
-	loadStart();
+	currentStartMenu = 0;
+	VDP_clearTileMapRect(BG_B, 0, 0, START_BG_WIDTH, START_BG_HEIGHT);
+	VDP_clearTileMapRect(BG_A, 0, 0, START_BG_WIDTH, START_BG_HEIGHT);
+	for(s8 y = 0; y < START_BG_HEIGHT; y++)
+		for(s8 x = -1; x < START_BG_WIDTH; x++) VDP_setTileMapXY(BG_B, TILE_ATTR_FULL(PAL1, 0, 0, 0, 13), x, y);
+	loadStartBg();
+	loadStartLogo();
+	loadStartMenu();
+	loadStartScore();
+	loadStartCredit();
 }
 
 void updateStartAbout(){
@@ -194,6 +202,8 @@ void updateStart(){
 		loadStartMenu();
 		loadStartScore();
 		loadStartCredit();
+		XGM_setLoopNumber(0);
+		XGM_startPlay(&bgmStart);
 	}
 	startClock++;
 	if(startClock >= 1800) startClock = SEGA_LIMIT + 120;

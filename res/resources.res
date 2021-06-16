@@ -71,3 +71,8 @@ IMAGE startAbout2 "start/about2.png" FAST
 
 SPRITE startBoddy1 "start/boddy.png" 7 4 FAST 5
 SPRITE startBoddy2 "start/boddy2.png" 7 4 FAST 5
+
+XGM bgmStart "bgm/start.vgm"
+XGM bgmStage1 "bgm/stage1.vgm"
+// XGM bgmStage2 "bgm/stage2.vgm"
+// WAV sfxExplosion "sfx/explosion.wav" 5

@@ -28,8 +28,10 @@ void loadGame(){
 	yinBulletSpeed = 4;
 	podBulletSpeed = 3;
 	currentScore = 0;
-	playerLives = 3;
+	playerLives = 5;
 	loadExplosion();
+	XGM_setLoopNumber(-1);
+	XGM_startPlay(&bgmStage1);
 }
 
 void resetGame(){
@@ -69,14 +71,14 @@ void updateGame(){
 		zoneStarting = TRUE;
 		doZoneStart = FALSE;
 	}
-	if(!gameOver && started && gameClock >= 15){
+	if(!gameOver && started && gameClock >= 15 && !zoneOver){
 		if(controls.start && !pausing){
 			pausing = TRUE;
 			paused = paused ? FALSE : TRUE;
 		} else if(!controls.start && pausing) pausing = FALSE;
 	} else if(gameOver){
 		if(gameOverClock < 600) gameOverClock++;
-		if(gameOverClock >= 30 && (controls.a || controls.b || controls.c || controls.start)) resetGame();
+		if(gameOverClock >= 120 && (controls.a || controls.b || controls.c || controls.start)) resetGame();
 	}
 };
 

@@ -90,7 +90,8 @@ void updatePlayerHit(){
 		playerPos.y = PLAYER_INIT_Y;
 		playerLives -= 1;
 		noMiss = FALSE;
-		if(playerLives < 0) gameOver = TRUE;
+		// if(playerLives < 0) gameOver = TRUE;
+		if(playerLives < 0) playerLives = 0;
 	}
 	// if(!gameOver && player.recovering){
 		// if(player.recoverClock % RECOVER_INTERVAL == 0){
