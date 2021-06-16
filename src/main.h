@@ -8,9 +8,6 @@
 #define SFX_ZONE_OVER 68
 
 #define SFX_BULLET_1 69
-#define SFX_BULLET_2 70
-#define SFX_BULLET_3 71
-#define SFX_BULLET_4 72
 
 #define SFX_EXPLOSION_1 73
 #define SFX_EXPLOSION_2 74

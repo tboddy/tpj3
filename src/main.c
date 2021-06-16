@@ -25,9 +25,6 @@ void loadResources(){
 	XGM_setPCM(SFX_ZONE_OVER, sfxZoneOver, sizeof(sfxZoneOver));
 
 	XGM_setPCM(SFX_BULLET_1, sfxBullet1, sizeof(sfxBullet1));
-	XGM_setPCM(SFX_BULLET_2, sfxBullet2, sizeof(sfxBullet2));
-	XGM_setPCM(SFX_BULLET_3, sfxBullet3, sizeof(sfxBullet3));
-	XGM_setPCM(SFX_BULLET_4, sfxBullet4, sizeof(sfxBullet4));
 
 	XGM_setPCM(SFX_EXPLOSION_1, sfxExplosion1, sizeof(sfxExplosion1));
 	XGM_setPCM(SFX_EXPLOSION_2, sfxExplosion2, sizeof(sfxExplosion2));
@@ -47,7 +44,6 @@ void loadGame(){
 	yinBulletSpeed = 4;
 	podBulletSpeed = 3;
 	currentScore = 0;
-	playerLives = 5;
 	loadExplosion();
 	XGM_startPlay(&bgmStage1);
 }
@@ -127,6 +123,8 @@ int main() {
 	loadResources();
 	SPR_init(0, 0, 0);
 	loadStart();
+	playerLives = 2;
+	playerBombs = 3;
 	while(1){
 		started ? updateGame() : updateStart();
 		SPR_update();

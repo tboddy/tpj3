@@ -7,8 +7,10 @@
 #define BOSS_TILE_COUNT 25
 #define BOSS_TILE_PX BOSS_TILE_COUNT * 8
 
+#define PLAYER_BOMBS_Y 26
+
 s16 frameTileIndex, zoneOverClock, zoneOverStage, lastBossHealth, bossTileIndex;
-s8 chromePlayerLives;
+s8 chromePlayerLives, chromePlayerBombs;
 s32 chromeCurrentScore;
 
 fix16 bossLimit, lastBossLimit;
@@ -29,5 +31,6 @@ void loadChrome(),
 	updateChromeScore(),
 	loadChromeBeatGame(),
 	updateChromePlayerLives(),
+	updateChromePlayerBombs(),
 	updateChromeBoss(),
 	updateChrome();

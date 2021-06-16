@@ -3,6 +3,7 @@
 
 #include "main.h"
 #include "controls.h"
+#include "player.h"
 #include "start.h"
 
 
@@ -52,13 +53,40 @@ void animateStartLogo(){
 }
 
 
-
 // menu
 
 void loadStartMenu(){
 	VDP_drawText(">", START_MENU_X - 1, START_MENU_Y);
 	VDP_drawText("START GAME", START_MENU_X, START_MENU_Y);
 	VDP_drawText("ABOUT", START_MENU_X, START_MENU_Y + 2);
+	VDP_drawText("LIVES", START_MENU_X, START_MENU_Y + 4);
+	VDP_drawText("BOMBS", START_MENU_X, START_MENU_Y + 6);
+}
+
+void updateStartLives(){
+	if(currentStartMenu == 2 && (controls.left || controls.right) && !updatingStartCount){
+		if(controls.right && playerLives < 6) playerLives++;
+		else if(controls.left && playerLives > 0) playerLives--;
+		updatingStartCount = TRUE;
+	} else if(!controls.left && !controls.right && updatingStartCount) updatingStartCount = FALSE;
+	if(startCurrentLives != playerLives){
+		startCurrentLives = playerLives;
+		VDP_clearTileMapRect(BG_A, START_MENU_X + 6, START_MENU_Y + 4, 6, 1);
+		for(s8 x = 0; x < playerLives; x++) VDP_drawText("#", x + START_MENU_X + 6, START_MENU_Y + 4);
+	}
+}
+
+void updateStartBombs(){
+	if(currentStartMenu == 3 && (controls.left || controls.right) && !updatingStartCount){
+		if(controls.right && playerBombs < 6) playerBombs++;
+		else if(controls.left && playerBombs > 0) playerBombs--;
+		updatingStartCount = TRUE;
+	} else if(!controls.left && !controls.right && updatingStartCount) updatingStartCount = FALSE;
+	if(startCurrentBombs != playerBombs){
+		startCurrentBombs = playerBombs;
+		VDP_clearTileMapRect(BG_A, START_MENU_X + 6, START_MENU_Y + 6, 6, 1);
+		for(s8 x = 0; x < playerBombs; x++) VDP_drawText("*", x + START_MENU_X + 6, START_MENU_Y + 6);
+	}
 }
 
 void updateStartMenu(){
@@ -69,11 +97,13 @@ void updateStartMenu(){
 	}
 	if((controls.up || controls.down) && !selectingStartMenu && !aboutShowing){
 		currentStartMenu += controls.up ? -1 : 1;
-		if(currentStartMenu > 1) currentStartMenu = 0;
-		else if(currentStartMenu < 0) currentStartMenu = 1;
+		if(currentStartMenu > 3) currentStartMenu = 0;
+		else if(currentStartMenu < 0) currentStartMenu = 3;
 		selectingStartMenu = TRUE;
 		XGM_startPlayPCM(SFX_MENU_SELECT, 1, SOUND_PCM_CH2);
 	} else if(!controls.up && !controls.down && !controls.a && !controls.b && !controls.c && !controls.start && selectingStartMenu) selectingStartMenu = FALSE;
+	updateStartLives();
+	updateStartBombs();
 }
 
 void selectStartMenu(){
@@ -131,6 +161,8 @@ void startGoBack(){
 	currentStartMenu = 0;
 	VDP_clearTileMapRect(BG_B, 0, 0, START_BG_WIDTH, START_BG_HEIGHT);
 	VDP_clearTileMapRect(BG_A, 0, 0, START_BG_WIDTH, START_BG_HEIGHT);
+	startCurrentBombs = -1;
+	startCurrentLives = -1;
 	for(s8 y = 0; y < START_BG_HEIGHT; y++)
 		for(s8 x = -1; x < START_BG_WIDTH; x++) VDP_setTileMapXY(BG_B, TILE_ATTR_FULL(PAL1, 0, 0, 0, 13), x, y);
 	loadStartBg();

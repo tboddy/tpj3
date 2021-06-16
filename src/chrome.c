@@ -24,6 +24,19 @@ void updateChromePlayerLives(){
 }
 
 
+// bombs
+
+void updateChromePlayerBombs(){
+	if(chromePlayerBombs != playerBombs){
+		for(s8 x = 0; x < 6; x++){
+			VDP_setTileMapXY(BG_A, TILE_ATTR_FULL(PAL1, 0, 0, 0, 11), x + 1, PLAYER_BOMBS_Y);
+			if(x < playerBombs) VDP_drawText("*", x + 1, PLAYER_BOMBS_Y);
+		}
+		chromePlayerBombs = playerBombs;
+	}
+}
+
+
 // score
 
 void updateChromeScore(){
@@ -46,6 +59,7 @@ void loadChromeZone(){
 
 void loadChromeZoneOver(){
 	chromePlayerLives = 0;
+	chromePlayerBombs = 0;
 	intToStr(currentZone, currentZoneStr, 2);
 	VDP_drawText("stage", 7, 8);
 	VDP_drawText(currentZoneStr, 13, 8);
@@ -96,6 +110,7 @@ void updateChromeZoneOver(){ // what the fuck am i on to do this
 }
 
 void loadChromeGameOver(bool beatIt){
+	XGM_stopPlay();
 	loadedChromeGameOver = TRUE;
 	VDP_drawText(beatIt ? "beat game!" : "game over!", 11, 10);
 	VDP_drawText(currentScore > highScore ? "NEW HI SCORE" : "FINAL SCORE;", 10, 13);
@@ -155,6 +170,7 @@ void updateChrome(){
 			if(!loadedChromeGameOver) loadChromeGameOver(FALSE);
 		} else {
 			updateChromePlayerLives();
+			updateChromePlayerBombs();
 			updateChromeBoss();
 			if(chromeCurrentScore < currentScore) updateChromeScore();
 		}

@@ -1,5 +1,4 @@
 IMAGE font "chrome/font.png" BEST NONE
-IMAGE font2 "chrome/font2.png" BEST NONE
 
 IMAGE full "full.png" FAST
 IMAGE half "half.png" FAST
@@ -85,9 +84,6 @@ WAV sfxPlayerHit "sfx/playerhit.wav" 5
 WAV sfxPlayerShot "sfx/playershot.wav" 5
 
 WAV sfxBullet1 "sfx/bullet1.wav" 5
-WAV sfxBullet2 "sfx/bullet2.wav" 5
-WAV sfxBullet3 "sfx/bullet3.wav" 5
-WAV sfxBullet4 "sfx/bullet4.wav" 5
 
 WAV sfxExplosion1 "sfx/explosion1.wav" 5
 WAV sfxExplosion2 "sfx/explosion2.wav" 5

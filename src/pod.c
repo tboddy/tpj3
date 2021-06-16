@@ -38,7 +38,7 @@ void podPatternOne(s16 i){
 		spawnEnemyBullet(bSpawn, eUpdate);
 		bSpawn.angle += 341;
 	}
-	XGM_startPlayPCM(SFX_BULLET_2, 0, SOUND_PCM_CH3);
+	XGM_startPlayPCM(SFX_BULLET_1, 0, SOUND_PCM_CH3);
 }
 
 void podPatternTwo(s8 i, s8 mod, s16 aMod){
@@ -114,6 +114,7 @@ void updatePod(){
 			if(!gameOver) shootPod(i);
 			killPod(i);
 			spawnExplosion(fix16ToInt(pods[i].pos.x), fix16ToInt(pods[i].pos.y), FALSE);
+			XGM_startPlayPCM(SFX_BULLET_1, 1, SOUND_PCM_CH3);
 		} else {
 			if(pods[i].clock % 60 == 0 && pods[i].clock > 0) SPR_setAnimAndFrame(pods[i].image, pods[i].clock / 60, pods[i].clock % 40 == 0 ? 0 : 1);
 			SPR_setPosition(pods[i].image, fix16ToInt(pods[i].pos.x) - 8, fix16ToInt(pods[i].pos.y) - 8);

@@ -8,7 +8,7 @@
 #define MOVEMENT_POS FIX16(1)
 #define MOVEMENT_NEG FIX16(-1)
 
-#define PLAYER_SPEED FIX16(3.5)
+#define PLAYER_SPEED FIX16(3.25)
 #define PLAYER_SPEED_FOCUS FIX16(2)
 
 #define PLAYER_INIT_X FIX16(GAME_WIDTH / 2)
@@ -17,7 +17,6 @@
 #define PLAYER_BULLET_LIMIT 3
 #define PLAYER_SHOT_INTERVAL 10
 #define PLAYER_BULLET_SPEED FIX16(8 * 4)
-#define PLAYER_BULLET_SPEED_DOWN FIX16(fix16ToInt(PLAYER_BULLET_SPEED) * -1)
 
 #define PLAYER_BULLET_UP_LIMIT FIX16(8)
 #define PLAYER_BULLET_DOWN_LIMIT FIX16(GAME_HEIGHT + 16)
@@ -28,6 +27,9 @@
 #define RECOVER_INTERVAL 30
 #define RECOVER_INTERVAL_HALF 15
 #define RECOVER_MAX RECOVER_INTERVAL * 6
+
+#define BOMB_LIMIT 200
+#define BOMB_INTERVAL 10
 
 struct playerBullet {
 	bool active, downward;
@@ -40,10 +42,10 @@ Sprite* playerSprite;
 
 Vect2D_f16 playerPos, playerVelocity;
 
-s16 playerShotClock, recoverClock;
-s8 playerLives;
+s16 playerShotClock, recoverClock, bombClock;
+s8 playerLives, playerBombs;
 
-bool hitPlayer, playerRecovering;
+bool hitPlayer, playerRecovering, bombing;
 
 void loadPlayer(),
 	updatePlayer(),
@@ -51,7 +53,9 @@ void loadPlayer(),
 	updatePlayerMove(),
 	updatePlayerShot(),
 	updatePlayerBullets(),
-	spawnPlayerBullet(bool),
+	spawnPlayerBullet(),
+	spawnBomb(),
+	updatePlayerBomb(),
 	resetPlayer(),
 	updatePlayerHit(),
 	removePlayerBullet(s16);

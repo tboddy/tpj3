@@ -106,6 +106,7 @@ void collideCentipede(s16 i){
 		if(centipedePodCheck < CENTIPEDE_POD_OFFSET) turnCentipede(i, j);
 	}
 
+	if(bombing && centipedes[i].clock % 20 == 0) hitCentipede(i);
 	// against player bullet
 	centipedeCollided = FALSE;
 	for(s16 j = 0; j < PLAYER_BULLET_LIMIT; j++) if(playerBullets[j].active) {

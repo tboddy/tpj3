@@ -2,6 +2,7 @@
 #include <resources.h>
 #include "player.h"
 #include "main.h"
+#include "enemies.h"
 #include "controls.h"
 
 
@@ -47,14 +48,12 @@ void updatePlayerMove(){
 
 // shooting
 
-void spawnPlayerBullet(bool downward){
+void spawnPlayerBullet(){
 	static s16 i = 0;
 	for(s16 j = 0; j < PLAYER_BULLET_LIMIT; j++) if(!playerBullets[j].active) i = j;
 	playerBullets[i].active = TRUE;
 	playerBullets[i].pos.x = playerPos.x;
 	playerBullets[i].pos.y = fix16Sub(playerPos.y, FIX16(8));
-	playerBullets[i].downward = downward ? TRUE : FALSE;
-	SPR_setVFlip(playerBullets[i].image, downward ? 1 : 0);
 	XGM_startPlayPCM(SFX_PLAYER_SHOT, 0, SOUND_PCM_CH4);
 }
 
@@ -67,17 +66,40 @@ void removePlayerBullet(s16 i){
 
 void updatePlayerBullets(){
 	for(s16 i = 0; i < PLAYER_BULLET_LIMIT; i++) if(playerBullets[i].active){
-		playerBullets[i].pos.y = fix16Sub(playerBullets[i].pos.y, (playerBullets[i].downward ? PLAYER_BULLET_SPEED_DOWN : PLAYER_BULLET_SPEED));
+		playerBullets[i].pos.y = fix16Sub(playerBullets[i].pos.y, PLAYER_BULLET_SPEED);
 		SPR_setPosition(playerBullets[i].image, fix16ToInt(playerBullets[i].pos.x) - 8, fix16ToInt(playerBullets[i].pos.y) - 8);
 		if(playerBullets[i].pos.y <= PLAYER_BULLET_UP_LIMIT || playerBullets[i].pos.y >= PLAYER_BULLET_DOWN_LIMIT || zoneOver) removePlayerBullet(i);
 	}
 }
 
 void updatePlayerShot(){
-	if(playerShotClock >= PLAYER_SHOT_INTERVAL && (controls.a || controls.c)) playerShotClock = 0;
-	if(playerShotClock == 0 && !zoneOver) spawnPlayerBullet(controls.c && !controls.a);
+	if(playerShotClock >= PLAYER_SHOT_INTERVAL && controls.a) playerShotClock = 0;
+	if(playerShotClock == 0 && !zoneOver) spawnPlayerBullet();
 	playerShotClock++;
 	if(playerShotClock >= 600) playerShotClock = PLAYER_SHOT_INTERVAL;
+}
+
+
+// bomb
+
+void spawnBomb(){
+	killBullets = TRUE;
+	SND_startPlayPCM_XGM(random() % 2 < 1 ? SFX_EXPLOSION_1 : SFX_EXPLOSION_2, 15, SOUND_PCM_CH2);
+	spawnExplosion(random() % GAME_WIDTH, random() % GAME_HEIGHT, FALSE);
+}
+
+void updatePlayerBomb(){
+	if(bombing){
+		if(bombClock % BOMB_INTERVAL == 0) spawnBomb();
+		bombClock++;
+		if(bombClock >= BOMB_LIMIT){
+			bombClock = 0;
+			bombing = FALSE;
+		}
+	} else if(controls.c && playerBombs > 0){
+		bombing = TRUE;
+		playerBombs -= 1;
+	}
 }
 
 
@@ -93,7 +115,7 @@ void updatePlayerHit(){
 		noMiss = FALSE;
 		XGM_startPlayPCM(random() % 2 < 1 ? SFX_EXPLOSION_1 : SFX_EXPLOSION_2, 1, SOUND_PCM_CH4);
 		spawnExplosion(fix16ToInt(playerPos.x), fix16ToInt(playerPos.y), TRUE);
-		if(playerLives < 0) playerLives = 0;
+		// if(playerLives < 0) playerLives = 0;
 		if(playerLives < 0) gameOver = TRUE;
 	}
 	if(!gameOver && playerRecovering){
@@ -145,6 +167,7 @@ void updatePlayer(){
 				updatePlayerHit();
 			}
 			updatePlayerShot();
+			updatePlayerBomb();
 		} else if(gameOver) resetPlayer();
 	}
 }
