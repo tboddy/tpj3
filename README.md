@@ -1,4 +1,5 @@
-touhou pride jam 3 entry, no name yet
+sweetsdigger
+touhou pride jam 3 entry
 arcade thing for sega genesis
 
 written with [sgdk](https://github.com/Stephane-D/SGDK)\
