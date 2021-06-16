@@ -1,6 +1,6 @@
 **sweetsdigger**
 
-touhou pride jam 3 entry
+touhou pride jam 3 entry\
 arcade thing for sega genesis influenced by jeff minter's gridrunner and ZUN's highly responsive to prayers
 
 written with [sgdk](https://github.com/Stephane-D/SGDK)\
