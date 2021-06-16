@@ -141,9 +141,12 @@ void updatePlayer(){
 	else {
 		updatePlayerBullets();
 		if(!gameOver && !paused){
-			updatePlayerMove();
+			if(zoneOver) SPR_setVisibility(playerSprite, HIDDEN);
+			else {
+				updatePlayerMove();
+				updatePlayerHit();
+			}
 			updatePlayerShot();
-			updatePlayerHit();
 		} else if(gameOver) resetPlayer();
 	}
 }

@@ -26,8 +26,10 @@ void updateChromePlayerLives(){
 
 // score
 
-void loadChromeScore(){
-	VDP_drawText("00000000", 12, 1);
+void updateChromeScore(){
+	chromeCurrentScore = currentScore;
+	intToStr(chromeCurrentScore, chromeScoreStr, 8);
+	VDP_drawText(chromeScoreStr, 12, 1);
 }
 
 
@@ -48,15 +50,21 @@ void loadChromeZoneOver(){
 	VDP_drawText("stage", 7, 8);
 	VDP_drawText(currentZoneStr, 13, 8);
 	VDP_drawText("complete!", 16, 8);
-	VDP_drawText("BONUS TIME", 7, 12);
-	VDP_drawText("00000", 20, 12);
-	VDP_drawText("NO-MISS", 7, 14);
-	VDP_drawText("00000", 20, 14);
-	VDP_drawText("STAGE", 7, 16);
-	VDP_drawText("00000", 20, 16);
+	VDP_drawText("NO-MISS", 7, 12);
+	VDP_drawText(noMiss ? (currentZone >= 10 ? "35000" : "25000") : "00000", 20, 12);
+	VDP_drawText("STAGE", 7, 14);
+	VDP_drawText(currentZone >= 10 ? "15000" : "10000", 20, 14);
+	if(currentZone % 5 == 0){
+		VDP_drawText("BOSS", 7, 16);
+		VDP_drawText(currentZone >= 10 ? "30000" : "20000", 20, 16);
+		currentScore += currentZone >= 10 ? 30000 : 20000;
+	}
 	currentZone++;
 	VDP_drawText("next stage", 7, 21);
 	loadedZoneOver = TRUE;
+	if(noMiss) currentScore += currentZone >= 10 ? 35000 : 25000;
+	currentScore += currentZone >= 10 ? 15000 : 10000;
+	updateChromeScore();
 }
 
 void updateChromeZoneOver(){ // what the fuck am i on to do this
@@ -82,17 +90,24 @@ void updateChromeZoneOver(){ // what the fuck am i on to do this
 	}
 	VDP_drawText(zoneOverTime, 21, 21);
 	zoneOverClock--;
-	if(zoneOverClock <= 0){
-		nextZone();
-	}
+	if(zoneOverClock <= 0) nextZone();
 }
 
-void loadChromeGameOver(){
+void loadChromeGameOver(bool beatIt){
 	loadedChromeGameOver = TRUE;
-	VDP_drawText("game over!", 11, 10);
-	VDP_drawText("FINAL SCORE;", 10, 13);
-	VDP_drawText("00000000", 12, 15);
-	VDP_drawText("PRESS ANY BUTTON", 8, 18);
+	VDP_drawText(beatIt ? "beat game!" : "game over!", 11, 10);
+	VDP_drawText(currentScore > highScore ? "NEW HI SCORE" : "FINAL SCORE;", 10, 13);
+	VDP_drawText(chromeScoreStr, 12, 15);
+	if(beatIt){
+		VDP_drawText("special thanks", 9, 19);
+		VDP_drawText("TOUHOU GAMEDEV DISCORD", 5, 21);
+	} else VDP_drawText("press any button", 8, 18);
+	if(currentScore > highScore) highScore = currentScore;
+}
+
+void loadChromeBeatGame(){
+	gameOver = TRUE;
+	loadChromeGameOver(TRUE);
 }
 
 
@@ -120,14 +135,8 @@ void updateChromeBoss(){
 // loop
 
 void loadChrome(){
-	VDP_loadTileSet(frame1.tileset, 3, DMA);
-	VDP_loadTileSet(frame2.tileset, 4, DMA);
-	VDP_loadTileSet(frame3.tileset, 5, DMA);
-	VDP_loadTileSet(frame4.tileset, 6, DMA);
-	VDP_loadTileSet(frame5.tileset, 7, DMA);
 	VDP_loadTileSet(bossBar.tileset, 8, DMA);
-	// loadChromeFrame();
-	loadChromeScore();
+	updateChromeScore();
 	loadChromeZone();
 	loadChromeLives();
 	zoneOverClock = ZONE_OVER_CHROME_LIMIT;
@@ -137,13 +146,14 @@ void updateChrome(){
 	if(zoneStarting) loadChrome();
 	else {
 		if(zoneOver){
-			if(!loadedZoneOver) loadChromeZoneOver();
+			if(!loadedZoneOver) currentZone == 20 ? loadChromeBeatGame() : loadChromeZoneOver();
 			updateChromeZoneOver();
 		} else if(gameOver){
-			if(!loadedChromeGameOver) loadChromeGameOver();
+			if(!loadedChromeGameOver) loadChromeGameOver(FALSE);
 		} else {
 			updateChromePlayerLives();
 			updateChromeBoss();
+			if(chromeCurrentScore < currentScore) updateChromeScore();
 		}
 	}
 }

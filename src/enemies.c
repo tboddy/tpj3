@@ -67,7 +67,7 @@ void checkEnemyBulletCollision(s16 i){
 		// SND_startPlayPCM_XGM(SFX_EXPLOSION2, 15, SOUND_PCM_CH2);
 	} else if(!bullets[i].grazed){
 		bullets[i].grazed = TRUE;
-		// currentScore += 15;
+		currentScore += 50;
 		// SND_startPlayPCM_XGM(SFX_GRAZE, 15, SOUND_PCM_CH2);
 	}
 }

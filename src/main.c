@@ -27,21 +27,29 @@ void loadGame(){
 	noMiss = TRUE;
 	yinBulletSpeed = 4;
 	podBulletSpeed = 3;
+	currentScore = 0;
 	playerLives = 3;
 	loadExplosion();
-};
+}
 
 void resetGame(){
 	VDP_clearPlane(BG_A, TRUE);
 	VDP_clearPlane(BG_B, TRUE);
 	DMA_waitCompletion();
+	startClock = 0;
 	zoneOver = FALSE;
 	started = FALSE;
 	paused = FALSE;
 	gameOver = FALSE;
+	loadedChromeGameOver = FALSE;
+	loadedZoneOver = FALSE;
+	zoneStarting = FALSE;
+	gameClock = 0;
+	noMiss = TRUE;
 	SPR_reset();
 	for(s8 i = 0; i < BG_SCROLL_WIDTH; i++) backgroundScrolls[i] = 0;
 	VDP_setVerticalScrollTile(BG_B, 0, backgroundScrolls, BG_SCROLL_WIDTH, DMA_QUEUE);
+	VDP_setScreenWidth320();
 	loadStart();
 }
 
@@ -57,6 +65,10 @@ void updateGame(){
 	updateChrome();
 	if(zoneStarting) zoneStarting = FALSE;
 	if(gameStarting) gameStarting = FALSE;
+	if(doZoneStart){
+		zoneStarting = TRUE;
+		doZoneStart = FALSE;
+	}
 	if(!gameOver && started && gameClock >= 15){
 		if(controls.start && !pausing){
 			pausing = TRUE;
@@ -69,27 +81,28 @@ void updateGame(){
 };
 
 void nextZone(){
-	SPR_reset();
-	loadExplosion();
-	if(currentZone % 5 == 0) loadBoss();
-	resetBackground();
-	resetEnemies();
-	resetPlayer();
-	zoneOver = FALSE;
-	loadedZoneOver = FALSE;
-	zoneStarting = TRUE;
-	zoneOverClock = 0;
-	gameClock = 0;
-	noMiss = TRUE;
+	if(currentZone == 21){
+		resetGame();
+	} else {
+		SPR_reset();
+		loadExplosion();
+		if(currentZone % 5 == 0) loadBoss();
+		resetBackground();
+		resetEnemies();
+		resetPlayer();
+		doZoneStart = TRUE;
+		zoneOver = FALSE;
+		loadedZoneOver = FALSE;
+		gameClock = -5;
+		noMiss = TRUE;
+	}
 }
 
 int main() {
-	VDP_setScreenWidth256();
 	JOY_init();
 	JOY_setEventHandler(&updateControls);
 	loadResources();
 	SPR_init(0, 0, 0);
-	// loadGame();
 	loadStart();
 	while(1){
 		started ? updateGame() : updateStart();

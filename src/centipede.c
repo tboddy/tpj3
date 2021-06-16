@@ -73,10 +73,7 @@ void animateCentipede(s16 i){
 void hitCentipede(s16 i){
 	spawnExplosion(fix16ToInt(centipedes[i].pos.x), fix16ToInt(centipedes[i].pos.y), TRUE);
 	centipedes[i].health -= CENTIPEDE_HIT;
-	if(centipedes[i].health < 67) centipedes[i].definition = 2;
-	if(centipedes[i].health < 33){
-		centipedes[i].definition = 1;
-	}
+	currentScore += 7;
 	if(centipedes[i].health < 0){
 		struct podSpawner pSpawn = {
 			.x = FIX16(fix16ToInt(centipedes[i].pos.x) / 16 * 16),
@@ -85,7 +82,9 @@ void hitCentipede(s16 i){
 		};
 		spawnPod(pSpawn);
 		destroyCentipede(i);
-	}
+		currentScore += currentZone >= 10 ? 2500 : 1500;
+	} else if(centipedes[i].health < 33) centipedes[i].definition = 1;
+	else if(centipedes[i].health < 67) centipedes[i].definition = 2;
 }
 
 void turnCentipede(s16 i, s16 j){
@@ -145,10 +144,10 @@ void destroyCentipede(s16 i){
 // loop
 
 void loadCentipede(){
-	centipedeCount = 3;
-	if(currentZone >= 5) centipedeCount = 4;
-	if(currentZone >= 10) centipedeCount = 5;
-	if(currentZone >= 15) centipedeCount = 6;
+	centipedeCount = 4;
+	if(currentZone >= 5) centipedeCount++;
+	if(currentZone >= 10) centipedeCount++;
+	if(currentZone >= 15) centipedeCount++;
 	for(s16 i = 0; i < centipedeCount; i++){
 		centipedes[i].active = TRUE;
 		centipedes[i].pos.x = FIX16(16 + 16 * i);

@@ -9,6 +9,7 @@
 
 s16 frameTileIndex, zoneOverClock, zoneOverStage, lastBossHealth, bossTileIndex;
 s8 chromePlayerLives;
+s32 chromeCurrentScore;
 
 fix16 bossLimit, lastBossLimit;
 
@@ -17,14 +18,16 @@ bool loadedZoneOver, loadedChromeGameOver;
 char currentZoneStr[2],
 	zoneHudStr[2],
 	currentZoneApp[1],
-	zoneOverTime[8];
+	zoneOverTime[8],
+	chromeScoreStr[10];
 
 void loadChrome(),
 	loadChromeZoneOver(),
 	loadChromeLives(),
-	loadChromeScore(),
-	loadChromeGameOver(),
+	loadChromeGameOver(bool),
 	updateChromeZoneOver(),
+	updateChromeScore(),
+	loadChromeBeatGame(),
 	updateChromePlayerLives(),
 	updateChromeBoss(),
 	updateChrome();

@@ -9,10 +9,8 @@
 // background
 
 void loadStartBg(){
-	VDP_loadTileSet(startTop.tileset, 13, DMA);
-	VDP_loadTileSet(startBottom.tileset, 14, DMA);
 	for(s8 y = 0; y < START_BG_HEIGHT; y++)
-		for(s8 x = -1; x < START_BG_WIDTH; x++) VDP_setTileMapXY(BG_B, TILE_ATTR_FULL(PAL1, 0, 0, 0, y > START_BG_HEIGHT - 2 ? 14 : 13), x, y);
+		for(s8 x = -1; x < START_BG_WIDTH; x++) if(y > START_BG_HEIGHT - 2) VDP_setTileMapXY(BG_B, TILE_ATTR_FULL(PAL1, 0, 0, 0, 14), x, y);
 	loadStartGradient();
 }
 
@@ -139,7 +137,9 @@ void updateStartAbout(){
 // score & credit
 
 void loadStartScore(){
-	VDP_drawText("HI 00002000", 1, 26);
+	intToStr(highScore, startHighScoreStr, 8);
+	VDP_drawText("HI", 1, 26);
+	VDP_drawText(startHighScoreStr, 4, 26);
 }
 
 void loadStartCredit(){
@@ -150,12 +150,13 @@ void loadStartCredit(){
 // loop
 
 void loadStart(){
-	currentStartMenu = 0;
-	loadStartBg();
-	loadStartLogo();
-	loadStartMenu();
-	loadStartScore();
-	loadStartCredit();
+	VDP_loadTileSet(startTop.tileset, 13, DMA);
+	VDP_loadTileSet(startBottom.tileset, 14, DMA);
+	for(s8 y = 0; y < START_BG_HEIGHT; y++)
+		for(s8 x = -1; x < START_BG_WIDTH; x++) VDP_setTileMapXY(BG_B, TILE_ATTR_FULL(PAL1, 0, 0, 0, 13), x, y);
+	segaImage1 = SPR_addSprite(&startBoddy1, SEGA_X - 56, SEGA_Y, TILE_ATTR(PAL1, 0, 0, 0));
+	segaImage2 = SPR_addSprite(&startBoddy2, SEGA_X, SEGA_Y, TILE_ATTR(PAL1, 0, 0, 0));
+	// VDP_drawImage(BG_B, &startBoddy, 0, 0);
 }
 
 void resetStart(){
@@ -164,11 +165,36 @@ void resetStart(){
 }
 
 void updateStart(){
-	updateStartMenu();
-	animateStartLogo();
-	if((controls.a || controls.b || controls.c || controls.start) && aboutShowing && !selectingStartMenu) startGoBack();
-	else if((controls.a || controls.start) && !aboutShowing && !selectingStartMenu) selectStartMenu();
-	if(aboutShowing) updateStartAbout();
+	if(startClock >= SEGA_LIMIT + 15){
+		updateStartMenu();
+		animateStartLogo();
+		if((controls.a || controls.b || controls.c || controls.start) && aboutShowing && !selectingStartMenu) startGoBack();
+		else if((controls.a || controls.start) && !aboutShowing && !selectingStartMenu) selectStartMenu();
+		if(aboutShowing) updateStartAbout();
+	} else if(startClock == SEGA_LIMIT - 25){
+		for(s8 y = 0; y < START_BG_HEIGHT; y++)
+			for(s8 x = -1; x < START_BG_WIDTH; x++) VDP_setTileMapXY(BG_A, TILE_ATTR_FULL(PAL1, 1, 0, 0, 10), x, y);
+	} else if(startClock == SEGA_LIMIT - 20){
+		for(s8 y = 0; y < START_BG_HEIGHT; y++)
+			for(s8 x = -1; x < START_BG_WIDTH; x++) VDP_setTileMapXY(BG_A, TILE_ATTR_FULL(PAL1, 1, 0, 0, 11), x, y);
+	} else if(startClock == SEGA_LIMIT - 15){
+		SPR_releaseSprite(segaImage1);
+		SPR_releaseSprite(segaImage2);
+	} else if(startClock == SEGA_LIMIT - 10){
+		VDP_setScreenWidth256();
+	} else if(startClock == SEGA_LIMIT - 5){
+		loadStartBg();
+	} else if(startClock == SEGA_LIMIT){
+		for(s8 y = 0; y < START_BG_HEIGHT; y++)
+			for(s8 x = -1; x < START_BG_WIDTH; x++) VDP_setTileMapXY(BG_A, TILE_ATTR_FULL(PAL1, 1, 0, 0, 10), x, y);
+	} else if(startClock == SEGA_LIMIT + 5){
+		VDP_clearTileMapRect(BG_A, -1, 0, START_BG_WIDTH, START_BG_HEIGHT);
+	} else if(startClock == SEGA_LIMIT + 10){
+		loadStartLogo();
+		loadStartMenu();
+		loadStartScore();
+		loadStartCredit();
+	}
 	startClock++;
-	if(startClock >= 600) startClock = 0;
+	if(startClock >= 1800) startClock = SEGA_LIMIT + 120;
 }
