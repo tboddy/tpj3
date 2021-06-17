@@ -5,6 +5,7 @@
 #include "controls.h"
 #include "chrome.h"
 #include "start.h"
+#include "boss.h"
 #include "background.h"
 #include "enemies.h"
 #include "player.h"
@@ -55,12 +56,16 @@ void resetGame(){
 	startClock = 0;
 	zoneOver = FALSE;
 	started = FALSE;
+	gameOverClock = 0;
 	paused = FALSE;
 	gameOver = FALSE;
 	loadedChromeGameOver = FALSE;
 	loadedZoneOver = FALSE;
 	zoneStarting = FALSE;
 	gameClock = 0;
+	playerLives = 2;
+	playerBombs = 3;
+	bossType = 0;
 	noMiss = TRUE;
 	SPR_reset();
 	for(s8 i = 0; i < BG_SCROLL_WIDTH; i++) backgroundScrolls[i] = 0;
@@ -68,6 +73,7 @@ void resetGame(){
 	VDP_setScreenWidth320();
 	loadStart();
 }
+
 
 void updateGame(){
 	if(started && !paused){
