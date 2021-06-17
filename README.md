@@ -1,5 +1,7 @@
-touhou pride jam 3 entry, no name yet
-arcade thing for sega genesis
+**sweetsdigger**
+
+touhou pride jam 3 entry\
+arcade thing for sega genesis influenced by jeff minter's gridrunner and ZUN's highly responsive to prayers
 
 written with [sgdk](https://github.com/Stephane-D/SGDK)\
-builds with [marsdev](https://github.com/andwn/marsdev) on macos silicon and arch linux
+builds with [marsdev](https://github.com/andwn/marsdev) on macos silicon and linux
